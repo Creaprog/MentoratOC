@@ -1,68 +1,68 @@
-body{
+body {
     font-family: 'Roboto Condensed', sans-serif;
     background-color: #f0f0e7;
 }
 
-#block_body{
+#block_body {
     margin: auto;
     width: 900px;
 }
 
-header{
+header {
     border-bottom: 1px solid black;
 }
-header h2{
+
+header h2 {
     font-weight: normal;
     display: inline-block;
 }
 
-#logo, header h1{
+#logo, header h1 {
     display: inline-block;
     margin-bottom: 0;
     font-weight: normal;
 }
 
-nav{
+nav {
     display: inline-block;
-    border: 1px solid black;
     width: 900px;
-    text-align: center;
+    text-align: right;
     position: fixed;
 }
 
-nav ul{
+nav ul {
     list-style-type: none;
 }
 
-nav li{
+nav li {
     display: inline-block;
     margin-right: 35px;
 
 }
 
-nav a{
+nav a {
     text-decoration: none;
     padding-bottom: 3px;
     color: black;
 }
 
-nav a:hover{
-   border-bottom: 2px solid black;
+nav a:hover {
+    border-bottom: 2px solid black;
 }
 
-#last_new{
-    margin-top: 70px;
+#last_new {
+    margin-top: 30px;
     position: relative;
     margin-bottom: 25px;
 }
 
-.last_new{
+.last_new {
     height: 200px;
     border-radius: 5px;
     box-shadow: 4px 4px 4px 4px #1c1a19;
 }
 
-#last_new_text{
+#last_new_text {
     font-weight: normal;
     color: white;
     font-size: 1em;
@@ -73,101 +73,100 @@ nav a:hover{
     padding-top: 10px;
     bottom: 0;
     margin-bottom: 0;
-    background-color: rgb(24,24,24);
-    background-color: rgba(24,24,24,0.8);
+    background-color: rgb(24, 24, 24);
+    background-color: rgba(24, 24, 24, 0.8);
     border-radius: 5px 5px;
 }
 
-#home{
+#home {
 
 }
 
-#home h1{
+#home h1 {
     font-weight: normal;
 
 }
 
-#home img{
+#home img {
     float: left;
     margin-right: 15px;
 }
 
-#home p{
+#home p {
 
 }
 
-#home ul{
+#home ul {
     list-style: circle;
 }
 
-#home a{
+#home a {
     text-decoration: none;
     color: black;
 
 }
 
-#home a:hover{
+#home a:hover {
     border-bottom: 1px solid black;
 }
 
-#home img{
+#home img {
     border-radius: 5px;
     box-shadow: 3px 3px 3px #1c1a19;
 }
 
-footer{
+footer {
     margin-top: 30px;
     border: 1px solid black;
 }
 
-#news{
-    margin-top: 70px;
+#news {
+    margin-top: 30px;
 }
 
-#news img{
+#news img {
     width: 324px;
-    height: 171px;
     float: left;
     margin-right: 15px;
     border-radius: 5px;
     box-shadow: 3px 3px 3px #1c1a19;
 }
 
-#news article{
+#news article {
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
-#infos{
-    margin-top: 70px;
+#infos {
+    margin-top: 30px;
 }
 
-#infos img{
+#infos img {
     height: 200px;
     width: 100%;
     border-radius: 5px;
     box-shadow: 3px 3px 3px #1c1a19;
 }
 
-#infos article{
+#infos article {
     margin-bottom: 50px;
 }
 
-#activities{
-    margin-top: 70px;
+#activities {
+    margin-top: 30px;
     border-collapse: collapse;
     width: 100%;
 }
 
-#activities td{
+#activities td {
     text-align: center;
 }
 
-#activities tr:hover{
+#activities tr:hover {
     background-color: red;
 }
 
-#contact{
-    margin-top: 70px;
+#contact {
+    margin-top: 30px;
     text-align: center;
 }

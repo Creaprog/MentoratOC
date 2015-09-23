@@ -8,14 +8,6 @@
 </head>
 <body>
 <div id="block_body">
-    <header>
-        <img src="pictures/town.png" alt="logo_town">
-
-        <h1>Panda - Ville</h1>
-
-        <h2>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..</h2>
-    </header>
-
     <nav>
         <ul>
             <li><a href="index.html">Accueil</a></li>
@@ -27,51 +19,61 @@
         </ul>
     </nav>
 
-    <form method="post" action="" id="contact">
-        <p>
-            <label for="title">Titre du message :</label>
-            <input type="text" name="title" id="title"/>
+    <header>
+        <img src="pictures/town.png" alt="logo_town">
 
-            <br/>
+        <h1>Panda - Ville</h1>
 
-            <label for="name">Votre nom :</label>
-            <input type="text" name="name" id="name"/>
+        <h2>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..</h2>
+    </header>
 
-            <br/>
+    <section>
+        <form method="post" action="" id="contact">
+            <p>
+                <label for="title">Titre du message :</label>
+                <input type="text" name="title" id="title"/>
 
-            <label for="born">Votre date de naissance :</label>
-            <input type="date" name="born" id="born"/>
+                <br/>
 
-            <br/>
+                <label for="name">Votre nom :</label>
+                <input type="text" name="name" id="name"/>
 
-            <label for="email">Votre e-mail :</label>
-            <input type="email" name="email" id="email"/>
+                <br/>
 
-            <br/>
+                <label for="born">Votre date de naissance :</label>
+                <input type="date" name="born" id="born"/>
 
-            <input type="checkbox" name="citizen" id="citizen"/>
-            <label for="citizen">Résident de la ville</label>
+                <br/>
 
-            <br/>
+                <label for="email">Votre e-mail :</label>
+                <input type="email" name="email" id="email"/>
 
-            <label for="nationality">Nationalité</label>
-            <select name="nationality" id="nationality">
-                <option value="Fraçaise">Française</option>
-                <option value="Marocaine">Marocaine</option>
-                <option value="Algérienne">Algérienne</option>
-                <option value="Américaine">Américaine</option>
-                <option value="Anglaise">Anglaise</option>
-                <option value="Allemande">Allemande</option>
-            </select>
+                <br/>
 
-            <br/>
+                <input type="checkbox" name="citizen" id="citizen"/>
+                <label for="citizen">Résident de la ville</label>
 
-            <label for="message">Message</label>
+                <br/>
+
+                <label for="nationality">Nationalité</label>
+                <select name="nationality" id="nationality">
+                    <option value="Fraçaise">Française</option>
+                    <option value="Marocaine">Marocaine</option>
+                    <option value="Algérienne">Algérienne</option>
+                    <option value="Américaine">Américaine</option>
+                    <option value="Anglaise">Anglaise</option>
+                    <option value="Allemande">Allemande</option>
+                </select>
+
+                <br/>
+
+                <label for="message">Message</label>
             <textarea name="message" id="message">
 
             </textarea>
-        </p>
-    </form>
+            </p>
+        </form>
+    </section>
 
     <footer>
         <a href="#">Administration</a>
