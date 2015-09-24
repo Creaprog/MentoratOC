@@ -1,6 +1,18 @@
+.ie7 #last_new_text {
+    display: none;
+}
+
+.ie7 a {
+    color: black;
+}
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
     background-color: #f0f0e7;
+}
+
+a {
+    color: black;
 }
 
 #block_body {
@@ -84,7 +96,6 @@ nav a:hover {
 
 #home h1 {
     font-weight: normal;
-
 }
 
 #home img {
@@ -169,4 +180,137 @@ footer {
 #contact {
     margin-top: 30px;
     text-align: center;
+}
+
+@media all and (max-width: 925px) {
+    #block_body {
+        width: auto;
+    }
+
+    header h2 {
+        font-size: 1em;
+    }
+
+    nav {
+        width: auto;
+        text-align: left;
+    }
+
+    nav li {
+        display: block;
+    }
+
+    nav a:hover {
+        border-bottom: 0;
+    }
+
+    .last_new {
+        height: auto;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px 2px #1c1a19;
+        max-width: 100%;
+    }
+
+    #last_new_text {
+        font-size: 0.8em;
+        height: 20px;
+        width: 100%;
+        padding-top: 3px;
+    }
+
+    #home h1 {
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    #home img {
+        float: none;
+        height: auto;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    #home p {
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    #home a {
+        font-size: 1em;
+    }
+
+    #home a:hover {
+        border-bottom: 0;
+    }
+
+    #news img {
+        max-width: 100%;
+        float: none;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    #news h1 {
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    #news p {
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    #news article {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    #infos img {
+        height: auto;
+        max-width: 100%;
+    }
+
+    #infos article {
+        margin-bottom: 30px;
+    }
+
+    #infos h1 {
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    #infos p {
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    #activities th {
+        display: none;
+    }
+
+    #activities td {
+        display: block;
+    }
+
+    #activities td:before {
+        content: attr(data-thead) " ";
+        font-weight: bold;
+    }
+
+    #activities tr:hover {
+        background-color: transparent;
+    }
+
+    #activities td {
+        padding-bottom: 20px;
+    }
+
+    #contact label {
+        display: block;
+        text-align: center;
+    }
 }
