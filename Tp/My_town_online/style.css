@@ -37,18 +37,23 @@ header h2 {
 
 nav {
     display: inline-block;
-    width: 900px;
+    width: auto;
     text-align: right;
+    margin-left: 290px;
     position: fixed;
+    background-color: #778393;
+    border-radius: 10px;
 }
 
 nav ul {
     list-style-type: none;
+
 }
 
 nav li {
     display: inline-block;
-    margin-right: 35px;
+    margin-right: 25px;
+
 
 }
 
@@ -60,6 +65,7 @@ nav a {
 
 nav a:hover {
     border-bottom: 2px solid black;
+    color: white;
 }
 
 #last_new {
