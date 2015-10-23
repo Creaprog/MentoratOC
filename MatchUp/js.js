@@ -1,16 +1,17 @@
 (function (d, w) {
     var links = ['http://domain.com/path/to/file.txt', 'ftp://domain.com/file.psd', 'git://user:password@git.server/tree/export.json', 'ssh://user@path.co/var/www/', '//domain.com'],
         body = d.getElementById('data'),
-        data, regex, protocol, separator, domain, char, charGit, match;
+        data, regex, protocol, separator, domain, char, match, final;
 
-    protocol = '([a-z0-9\/]+)';
-    separator = '(?:[\/\/:\.@]*)';
+    protocol = '([a-z0-9]*)';
+    separator = '(?:[:\/@\.]*)';
     domain = '([a-z0-9\.]+)';
     char = '([a-z0-9\/\.]*)';
-    charGit = '([a-z0-9]*)';
+
+    final = protocol + separator + domain + separator + char + separator + char;
 
 
-    regex = new RegExp(protocol + separator + domain + separator  + charGit + char + separator + char);
+    regex = new RegExp(final);
 
     for (var i = 0, o = links.length; i < o; i++) {
         match = links[i].match(regex);
