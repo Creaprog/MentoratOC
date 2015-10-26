@@ -13,9 +13,9 @@
         body = d.getElementById('data'),
         data, regex, protocol, separator, domain, char, match, final;
 
-    protocol = '(?:([a-z]*)(?:://)?)?';
+    protocol = '(?:([a-z]+)(?:://)?)?';
     user = '(?:([a-zA-Z0-9_-]+)[:@])?';
-    password = '(?:([^@]*)@?)?'; 
+    password = '(?:([^@]+)@?)?'; 
     domain = '([a-z0-9.-]+)';
     path = '(/.+)?';
 
