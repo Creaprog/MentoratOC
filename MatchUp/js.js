@@ -3,13 +3,15 @@
         body = d.getElementById('data'),
         data, regex, protocol, separator, domain, char, match, final;
 
-    protocol = '([a-z0-9]*)';
-    separator = '(?:[:\/@\.]*)';
-    domain = '([a-z0-9\.]+)';
-    char = '([a-z0-9\/\.]*)';
+    protocol = '(([a-z]*)(?:://)?)?';
+    user = '([a-zA-Z0-9_-]*)[:@]?';
+    password = '([^@]*)@?'; 
+    domain = '([a-z0-9.-]+)';
+    char = '(/.+)?';
 
     final = protocol + separator + domain + separator + char + separator + char;
-
+    
+    // (([a-z]*)(?:://)?)?([a-zA-Z0-9_-]*)[:@]?([^@]*)@?([a-z0-9.-]+)(/.+)?
 
     regex = new RegExp(final);
 
