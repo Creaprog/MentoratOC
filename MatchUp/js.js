@@ -1,15 +1,27 @@
 (function (d, w) {
-    var links = ['http://domain.com/path/to/file.txt', 'ftp://domain.com/file.psd', 'git://user:password@git.server/tree/export.json', 'ssh://user@path.co/var/www/', '//domain.com'],
+    var links = [
+        'http://domain.com/path/to/file.txt',
+        'ftp://domain.com/file.psd',
+        'git://user:password@git.server/tree/export.json',
+        'ssh://user@path.co/var/www/',
+        '//domain.com',
+        'user:pwd@domain.com',
+        'user@domain.com',
+        '//user@domain.com',
+        '//user:pwd@domain.com'
+    ],
         body = d.getElementById('data'),
         data, regex, protocol, separator, domain, char, match, final;
 
-    protocol = '([a-z0-9]*)';
-    separator = '(?:[:\/@\.]*)';
-    domain = '([a-z0-9\.]+)';
-    char = '([a-z0-9\/\.]*)';
+    protocol = '(?:([a-z]+)(?:://)?)?';
+    user = '(?:([a-zA-Z0-9_-]+)[:@])?';
+    password = '(?:([^@]+)@?)?'; 
+    domain = '([a-z0-9.-]+)';
+    path = '(/.+)?';
 
-    final = protocol + separator + domain + separator + char + separator + char;
-
+    final = protocol + user + password + domain + path;
+    
+    // (([a-z]*)(?:://)?)?([a-zA-Z0-9_-]*)[:@]?([^@]*)@?([a-z0-9.-]+)(/.+)?
 
     regex = new RegExp(final);
 
