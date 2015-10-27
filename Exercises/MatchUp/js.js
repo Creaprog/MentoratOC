@@ -11,7 +11,7 @@
         '//user:pwd@domain.com'
     ],
         body = d.getElementById('data'),
-        data, regex, protocol, separator, domain, char, match, final;
+        data, regex, protocol, domain, match, final;
 
     protocol = '(?:([a-z]+)(?:://)?)?';
     user = '(?:([a-zA-Z0-9_-]+)[:@])?';
