@@ -1,0 +1,13 @@
+@media all and (max-width: 768px) {
+    th {
+        display: none;
+    }
+
+    td {
+        display: block;
+    }
+
+    td::before {
+        content: attr(data-thead) " ";
+    }
+}

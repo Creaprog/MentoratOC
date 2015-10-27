@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#christmas_body p {
+    text-align: center;
+    color: green;
+    line-height: 10px;
+    letter-spacing: -0.6em;
+}
+
+#christmas_foot p {
+    text-align: center;
+    color: saddlebrown;
+    line-height: 5px;
+    letter-spacing: -0.2em;
+    display: block;
+}
