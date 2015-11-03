@@ -46,16 +46,16 @@
 
 
     //Character creation
-    var test = new Character('Greg', aleaPosition(), aleaPosition(), 'images/characterA.png');
+    var Greg = new Character('Greg', aleaPosition(), aleaPosition(), 'images/characterA.png');
     var Emilie = new Character('Emilie', aleaPosition(), aleaPosition(), 'images/characterB.png');
 
 
 
     //Launch the game
     createMap();
-    addToGame(test);
+    addToGame(Greg);
     addToGame(Emilie);
-    collision(test, Emilie);
+    collision(Greg, Emilie);
 
 
 })(document, window);
