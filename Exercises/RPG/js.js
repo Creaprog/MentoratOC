@@ -22,9 +22,7 @@
         }, false);
 
     function aleaPosition(){
-        for(var rand = Math.floor(Math.random() * (10 - 1)); rand <= 10; rand++){
-            return (rand*50);
-        }
+        return Math.floor(Math.random() * (10 - 1)) * 50;
     }
 
 })(document, window);
