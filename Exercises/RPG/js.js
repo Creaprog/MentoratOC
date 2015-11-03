@@ -12,12 +12,19 @@
     var characterA = new Image();
         characterA.src ='images/characterA.png';
         characterA.addEventListener('load', function(){
-            context.drawImage(characterA, 0, 50);
+            context.drawImage(characterA, aleaPosition(), aleaPosition());
         }, false);
 
     var characterB = new Image();
         characterB.src ='images/characterB.png';
         characterB.addEventListener('load', function(){
-            context.drawImage(characterB, 50, 0);
+            context.drawImage(characterB, aleaPosition(), aleaPosition());
         }, false);
+
+    function aleaPosition(){
+        for(var rand = Math.floor(Math.random() * (10 - 1)); rand <= 10; rand++){
+            return (rand*50);
+        }
+    }
+
 })(document, window);
