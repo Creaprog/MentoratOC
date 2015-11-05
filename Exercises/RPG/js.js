@@ -23,16 +23,44 @@
         this.src = src;
         this.image = new Image();
         this.step = 3;
+        this.clear = 1;
+        this.oldWeapon = null;
 
         this.moveUp = function(){
             if(this.y == 0){
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else{
-                clearContext(this.x, this.y);
-                this.y = this.y - 50;
-                this.weapon.y = this.weapon.y - 50;
-                move(this, this.weapon);
+                if(this.clear == 1){
+                    clearContext(this.x, this.y);
+                    this.y = this.y - 50;
+                    if(this.x == baton.x && this.y == baton.y){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.oldWeapon = this.weapon;
+                        this.weapon = baton;
+                        addToGame(this);
+                        this.clear = 0;
+                    }else{
+                        this.weapon.y = this.weapon.y - 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }else {
+                    clearContext(this.x , this.y);
+                    addToGame(this.oldWeapon);
+                    this.y = this.y - 50;
+                    if(this.x == baton.x && this.y == baton.y){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.weapon = baton;
+                        addToGame(this);
+                        this.clear = 0;
+                    }else{
+                        this.weapon.y = this.weapon.y - 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }
+
             }
         };
 
@@ -46,7 +74,6 @@
                 this.weapon.y = this.weapon.y + 50;
                 move(this, this.weapon);
             }
-
         };
 
         this.moveRight = function(){
@@ -59,7 +86,6 @@
                 this.weapon.x = this.weapon.x + 50;
                 move(this, this.weapon);
             }
-
         };
 
         this.moveLeft = function(){
@@ -72,7 +98,6 @@
                 this.weapon.x = this.weapon.x - 50;
                 move(this, this.weapon);
             }
-
         };
     }
 
@@ -89,7 +114,13 @@
             character.weapon = this;
             this.x = character.x;
             this.y = character.y;
-        }
+        };
+
+        this.onTheMap = function(cordx, cordy){
+            this.x = cordx;
+            this.y = cordy;
+            addToGame(this);
+        };
     }
 
     //Core
@@ -113,6 +144,7 @@
         }, false);
     }
 
+
     function aleaPosition(){
         return Math.floor(Math.random() * (10 - 1)) * 50;
     }
@@ -126,24 +158,8 @@
         }
     }
 
-    function collisionWeapon(weapon, weapon2, weapon3, character, character2){
-        if(weapon.x == weapon2.x && weapon.y == weapon2.y){
-            weapon.x = aleaPosition();
-        }else if(weapon2.x == weapon3.x && weapon2.y == weapon3.y){
-            weapon2.y = aleaPosition();
-        }else if(weapon.x == character.x && weapon.y == character.y){
-            weapon.x = aleaPosition();
-        }else if(weapon.x == character2.x && weapon.y == character2.y){
-            weapon.y = aleaPosition();
-        }else if(weapon2.x == character.x && weapon2.y == character.y){
-            weapon2.x = aleaPosition();
-        }else if(weapon2.x == character2.x && weapon2.y == character2.y){
-            weapon2.y = aleaPosition();
-        }else if(weapon3.x == character.x && weapon3.y == character.y){
-            weapon3.x = aleaPosition();
-        }else if(weapon3.x == character2.x && weapon3.y == character2.y){
-            weapon3.y = aleaPosition();
-        }
+    function collisionWeapon(){
+
     }
 
     function clearContext(x, y){
@@ -264,8 +280,6 @@
     var Greg = new Character('Greg', aleaPosition(), aleaPosition(), 'images/characterA.png');
     var Emilie = new Character('Emilie', aleaPosition(), aleaPosition(), 'images/characterB.png');
 
-
-
     //Launch the game
     createMap();
     addToGame(Greg);
@@ -278,7 +292,7 @@
     addToGame(baton);
     addToGame(dagger);
     addToGame(gun);
-    collisionWeapon(baton, dagger, gun, Greg, Emilie);
+    collisionWeapon();
     moveCharacters();
 
 })(document, window);
