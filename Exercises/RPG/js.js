@@ -2,6 +2,7 @@
     var map = d.querySelector('#map');
     var context = map.getContext('2d');
     var round = 0;
+    var playerTable = [];
 
     //Map creation
     function createMap(){
@@ -39,11 +40,13 @@
                         this.oldWeapon = this.weapon;
                         this.weapon = baton;
                         addToGame(this);
-                        this.clear = 0;
+                        this.clear = 0
+                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
                     }else{
                         this.weapon.y = this.weapon.y - 50;
                         move(this, this.weapon);
                         this.clear = 1;
+                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
                     }
                 }else {
                     clearContext(this.x , this.y);
@@ -54,10 +57,12 @@
                         this.weapon = baton;
                         addToGame(this);
                         this.clear = 0;
+                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
                     }else{
                         this.weapon.y = this.weapon.y - 50;
                         move(this, this.weapon);
                         this.clear = 1;
+                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
                     }
                 }
 
@@ -73,6 +78,7 @@
                 this.y = this.y + 50;
                 this.weapon.y = this.weapon.y + 50;
                 move(this, this.weapon);
+                console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
             }
         };
 
@@ -85,6 +91,7 @@
                 this.x = this.x + 50;
                 this.weapon.x = this.weapon.x + 50;
                 move(this, this.weapon);
+                console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
             }
         };
 
@@ -97,6 +104,7 @@
                 this.x = this.x - 50;
                 this.weapon.x = this.weapon.x - 50;
                 move(this, this.weapon);
+                console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
             }
         };
     }
@@ -144,6 +152,22 @@
         }, false);
     }
 
+    function isCombat(character){
+        for(var i = 0, o = playerTable.length; i < o; i++){
+            if(playerTable[i].nick != character.nick){
+                if(character.y == playerTable[i].y + 50 && character.x == playerTable[i].x){
+                    console.log('Vous etes en combats');
+                }else if(character.y == playerTable[i].y - 50 && character.x == playerTable[i].x){
+                    console.log('Vous etes en combats');
+                }else if(character.x == playerTable[i].x - 50 && character.y == playerTable[i].y){
+                    console.log('Vous etes en combats');
+                }else if(character.x == playerTable[i].x + 50 && character.y == playerTable[i].y){
+                    console.log('Vous etes en combats');
+                }
+            }
+        }
+    }
+
 
     function aleaPosition(){
         return Math.floor(Math.random() * (10 - 1)) * 50;
@@ -189,18 +213,22 @@
                     if (manageStep(Greg)) {
                         Greg.moveUp();
                         Greg.step--;
+                        isCombat(Greg);
                     }else {
                         Emilie.moveUp();
                         Emilie.step --;
+                        isCombat(Emilie);
                     }
                 }
                 else{
                     if (manageStep(Emilie)) {
                         Emilie.moveUp();
                         Emilie.step--;
+                        isCombat(Emilie);
                     }else {
                          Greg.moveUp();
                         Greg.step--;
+                        isCombat(Greg);
                     }
                 }
 
@@ -209,18 +237,22 @@
                     if (manageStep(Greg)) {
                         Greg.moveDown();
                         Greg.step--;
+                        isCombat(Greg);
                     }else {
                          Emilie.moveDown();
                         Emilie.step --;
+                        isCombat(Emilie);
                     }
                 }
                 else{
                     if (manageStep(Emilie)) {
                          Emilie.moveDown();
                          Emilie.step--;
+                        isCombat(Emilie);
                     }else {
                         Greg.moveDown();
                         Greg.step--;
+                        isCombat(Greg);
                     }
                 }
 
@@ -229,18 +261,22 @@
                     if (manageStep(Greg)) {
                         Greg.moveRight();
                         Greg.step--;
+                        isCombat(Greg);
                     }else {
                         Emilie.moveRight();
                         Emilie.step --;
+                        isCombat(Emilie);
                     }
                 }
                 else{
                     if (manageStep(Emilie)) {
                         Emilie.moveRight();
                         Emilie.step--;
+                        isCombat(Emilie);
                     }else {
                         Greg.moveRight();
                         Greg.step--;
+                        isCombat(Greg);
                     }
                 }
 
@@ -249,18 +285,22 @@
                     if (manageStep(Greg)) {
                         Greg.moveLeft();
                         Greg.step--;
+                        isCombat(Greg);
                     }else {
                         Emilie.moveLeft();
                         Emilie.step --;
+                        isCombat(Emilie);
                     }
                 }
                 else{
                     if (manageStep(Emilie)) {
                         Emilie.moveLeft();
                         Emilie.step--;
+                        isCombat(Emilie);
                     }else {
                         Greg.moveLeft();
                         Greg.step--;
+                        isCombat(Greg);
                     }
                 }
 
@@ -279,6 +319,10 @@
     //Character creation
     var Greg = new Character('Greg', aleaPosition(), aleaPosition(), 'images/characterA.png');
     var Emilie = new Character('Emilie', aleaPosition(), aleaPosition(), 'images/characterB.png');
+
+    //Add characters into playerTable
+    playerTable.push(Greg);
+    playerTable.push(Emilie);
 
     //Launch the game
     createMap();
