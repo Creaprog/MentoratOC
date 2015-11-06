@@ -35,37 +35,33 @@
                 if(this.clear == 1){
                     clearContext(this.x, this.y);
                     this.y = this.y - 50;
-                    if(this.x == baton.x && this.y == baton.y){
+                    if(catchWeapon(this)){
                         this.weapon.onTheMap(this.x, this.y);
                         this.oldWeapon = this.weapon;
-                        this.weapon = baton;
+                        this.weapon = returnWeaponCatch(this);
                         addToGame(this);
-                        this.clear = 0
-                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
-                    }else{
+                        this.clear = 0;
+                    }else {
                         this.weapon.y = this.weapon.y - 50;
                         move(this, this.weapon);
                         this.clear = 1;
-                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
                     }
                 }else {
                     clearContext(this.x , this.y);
                     addToGame(this.oldWeapon);
                     this.y = this.y - 50;
-                    if(this.x == baton.x && this.y == baton.y){
+                    if(catchWeapon(this)){
                         this.weapon.onTheMap(this.x, this.y);
-                        this.weapon = baton;
+                        this.oldWeapon = this.weapon;
+                        this.weapon = returnWeaponCatch(this);
                         addToGame(this);
                         this.clear = 0;
-                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
-                    }else{
+                    }else {
                         this.weapon.y = this.weapon.y - 50;
                         move(this, this.weapon);
                         this.clear = 1;
-                        console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
                     }
                 }
-
             }
         };
 
@@ -74,11 +70,36 @@
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else {
-                clearContext(this.x, this.y);
-                this.y = this.y + 50;
-                this.weapon.y = this.weapon.y + 50;
-                move(this, this.weapon);
-                console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
+                if(this.clear == 1){
+                    clearContext(this.x, this.y);
+                    this.y = this.y + 50;
+                    if(catchWeapon(this)){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.oldWeapon = this.weapon;
+                        this.weapon = returnWeaponCatch(this);
+                        addToGame(this);
+                        this.clear = 0;
+                    }else {
+                        this.weapon.y = this.weapon.y + 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }else {
+                    clearContext(this.x , this.y);
+                    addToGame(this.oldWeapon);
+                    this.y = this.y + 50;
+                    if(catchWeapon(this)){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.oldWeapon = this.weapon;
+                        this.weapon = returnWeaponCatch(this);
+                        addToGame(this);
+                        this.clear = 0;
+                    }else {
+                        this.weapon.y = this.weapon.y + 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }
             }
         };
 
@@ -87,11 +108,36 @@
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else{
-                clearContext(this.x, this.y);
-                this.x = this.x + 50;
-                this.weapon.x = this.weapon.x + 50;
-                move(this, this.weapon);
-                console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
+                if(this.clear == 1){
+                    clearContext(this.x, this.y);
+                    this.x = this.x + 50;
+                    if(catchWeapon(this)){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.oldWeapon = this.weapon;
+                        this.weapon = returnWeaponCatch(this);
+                        addToGame(this);
+                        this.clear = 0;
+                    }else {
+                        this.weapon.x = this.weapon.x + 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }else {
+                    clearContext(this.x , this.y);
+                    addToGame(this.oldWeapon);
+                    this.x = this.x + 50;
+                    if(catchWeapon(this)){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.oldWeapon = this.weapon;
+                        this.weapon = returnWeaponCatch(this);
+                        addToGame(this);
+                        this.clear = 0;
+                    }else {
+                        this.weapon.x = this.weapon.x + 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }
             }
         };
 
@@ -100,11 +146,36 @@
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else{
-                clearContext(this.x, this.y);
-                this.x = this.x - 50;
-                this.weapon.x = this.weapon.x - 50;
-                move(this, this.weapon);
-                console.log(this.nick + 'x = ' + this.x + ' y = ' + this.y);
+                if(this.clear == 1){
+                    clearContext(this.x, this.y);
+                    this.x = this.x - 50;
+                    if(catchWeapon(this)){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.oldWeapon = this.weapon;
+                        this.weapon = returnWeaponCatch(this);
+                        addToGame(this);
+                        this.clear = 0;
+                    }else {
+                        this.weapon.x = this.weapon.x - 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }else {
+                    clearContext(this.x , this.y);
+                    addToGame(this.oldWeapon);
+                    this.x = this.x - 50;
+                    if(catchWeapon(this)){
+                        this.weapon.onTheMap(this.x, this.y);
+                        this.oldWeapon = this.weapon;
+                        this.weapon = returnWeaponCatch(this);
+                        addToGame(this);
+                        this.clear = 0;
+                    }else {
+                        this.weapon.x = this.weapon.x - 50;
+                        move(this, this.weapon);
+                        this.clear = 1;
+                    }
+                }
             }
         };
     }
@@ -168,6 +239,39 @@
         }
     }
 
+    function returnWeaponCatch(character){
+        if(character.x == baton.x && character.y == baton.y && character.weapon.name != baton.name){
+            return baton
+        }else if(character.x == gun.x && character.y == gun.y && character.weapon.name != gun.name){
+            return gun
+        }else if(character.x == dagger.x && character.y == dagger.y && character.weapon.name != dagger.name){
+            return dagger
+        }else if(character.x == weapDefaultA.x && character.y == weapDefaultA.y && character.weapon.name != weapDefaultA.name){
+            return weapDefaultA
+        }else if(character.x == weapDefaultB.x && character.y == weapDefaultB.y && character.weapon.name != weapDefaultB.name){
+            return weapDefaultB
+        }
+        else {
+            return null
+        }
+    }
+
+    function catchWeapon(character){
+        if(character.x == baton.x && character.y == baton.y){
+            return true
+        }else if(character.x == gun.x && character.y == gun.y){
+            return true
+        }else if(character.x == dagger.x && character.y == dagger.y){
+            return true
+        }else if(character.x == weapDefaultA.x && character.y == weapDefaultA.y){
+            return true
+        }else if (character.x == weapDefaultB.x && character.y == weapDefaultB.y){
+            return true
+        }
+        else {
+            return false
+        }
+    }
 
     function aleaPosition(){
         return Math.floor(Math.random() * (10 - 1)) * 50;
@@ -309,12 +413,11 @@
     }
 
     //Weapon creation
-    var weapDefaultA = new Weapon('sword', 10, 'images/weaponC.png');
-    var weapDefaultB = new Weapon('sword', 10, 'images/weaponC.png');
+    var weapDefaultA = new Weapon('swordA', 10, 'images/weaponC.png');
+    var weapDefaultB = new Weapon('swordB', 10, 'images/weaponC.png');
     var baton = new Weapon('baton', 20, 'images/weaponD.png');
     var dagger = new Weapon('dagger', 15, 'images/weaponA.png');
     var gun = new Weapon('gun', 30, 'images/weaponB.png');
-
 
     //Character creation
     var Greg = new Character('Greg', aleaPosition(), aleaPosition(), 'images/characterA.png');
