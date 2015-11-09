@@ -4,7 +4,7 @@
     var round = 0;
     var playerTable = [];
     var gameZone = d.getElementById('game');
-    var canvas, log, title, titleText, description, descriptionText, welcome, welcomeText, playerStat, playerName, space, spaceTwo, spaceTree, life, lifeValue, weaponName, damageWeapon, selectWeapon, selectWeaponDamage;
+    var log, title, titleText, description, descriptionText, welcome, welcomeText, playerStat, playerName, space, spaceTwo, spaceTree, life, lifeValue, weaponName, damageWeapon, selectWeapon, selectWeaponDamage;
 
 
     /**
@@ -118,8 +118,14 @@
         }
     };
 
+    World.prototype.drawElement = function(element){
+        element.image.src = element.src;
+        element.image.addEventListener('load', function(){
+            context.drawImage(element.image, element.x, element.y);
+        }, false);
+    };
+
     // TO BE REMOVED IN THE END
-    var createMap = World.prototype.createMap;
     var aleaPosition = World.prototype.aleaPosition;
 
     //Constructor of characters
@@ -135,6 +141,12 @@
         this.step = 3;
         this.clear = 1;
         this.oldWeapon = null;
+
+        this.setWeapon = function(weapon){
+            this.weapon = weapon;
+            weapon.x = this.x;
+            weapon.y = this.y;
+        };
 
         this.move = function (direction) {
             var valid = {
@@ -153,7 +165,7 @@
 
             clearContext(this.x, this.y);
             if (this.clear !== 1) {
-                addToGame(this.oldWeapon);
+                world.drawElement(this.oldWeapon);
             }
             this[modificators.attribute] = this[modificators.attribute] + modificators.value;
             if (catchWeapon(this)) {
@@ -161,7 +173,7 @@
                 this.oldWeapon = this.weapon;
                 this.weapon = returnWeaponCatch(this);
                 updateWeaponText(this);
-                addToGame(this);
+                world.drawElement(this);
                 this.clear = 0;
             } else {
                 this.weapon[modificators.attribute] = this.weapon[modificators.attribute] + modificators.value;
@@ -171,7 +183,6 @@
 
             console.info(this.nick+' has '+this.step+' steps');
         };
-
         /**
          * @param character Character
          * @returns {boolean}
@@ -296,44 +307,6 @@
         }
     }
 
-    function moveEngineUp(character){
-        if(character.clear == 1){
-            clearContext(character.x, character.y);
-            character.y = character.y - 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.y = character.weapon.y - 50;
-                move(character);
-                character.clear = 1;
-            }
-        }else {
-            clearContext(character.x , character.y);
-            addToGame(character.oldWeapon);
-            character.y = character.y - 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.y = character.weapon.y - 50;
-                move(character, character.weapon);
-                character.clear = 1;
-            }
-        }
-    }
-
-    function catchWeapon(character){
-    }
-
     function createText(){
         log = d.createElement('div');
         log.id = 'log';
@@ -402,21 +375,8 @@
         selectWeapon.innerText = 'Arme : ' + character.weapon.name;
         selectWeaponDamage = d.getElementById('damage' + character.nick);
         selectWeaponDamage.innerText = 'Dégat de l\'arme : ' + character.weapon.damage;
-
     }
 
-    function collision(character, character2){
-        if(character.x == character2.x && character.y == character2.y){
-            character.x = aleaPosition();
-            character.y = aleaPosition();
-            character2.x = aleaPosition();
-            character2.y = aleaPosition();
-        }
-    }
-
-    function collisionWeapon(){
-
-    }
 
     function clearContext(x, y){
         context.clearRect(x, y, 50, 50);
@@ -556,11 +516,8 @@
     playerTable.push(Emilie);
 
     //Launch the game
-    createMap();
-    collision(Greg, Emilie);
     weapDefaultA.sendTo(Greg);
     weapDefaultB.sendTo(Emilie);
-    collisionWeapon();
     moveCharacters();
     createText();
 
@@ -576,6 +533,8 @@
         .addElement(gun, true)
     ;
 
+    Greg.setWeapon(weapDefaultA);
+    Emilie.setWeapon(weapDefaultB);
     window.world = world;
 
 })(document, window);
