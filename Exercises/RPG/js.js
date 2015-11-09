@@ -6,18 +6,125 @@
     var gameZone = d.getElementById('game');
     var canvas, log, title, titleText, description, descriptionText, welcome, welcomeText, playerStat, playerName, space, spaceTwo, spaceTree, life, lifeValue, weaponName, damageWeapon, selectWeapon, selectWeaponDamage;
 
-    //Map creation
-    function createMap(){
+
+    /**
+     * The world contains the characters and different weapons
+     * @constructor
+     */
+    var World = function(){
+        this.createMap();
+    };
+
+    World.prototype.characters = [];
+    World.prototype.weapons = [];
+
+    World.prototype.collides = function(element)  {
+        var x = element.x,
+            y = element.y,
+            nameToCheck = element.nick || element.name || null,
+            char, weapon,
+            i, l;
+
+        for (i = 0, l = this.characters.length; i < l; i++) {
+            char = this.characters[i];
+            if (x === char.x && y === char.y && char.nick !== nameToCheck) {
+                return true;
+            }
+        }
+
+        for (i = 0, l = this.weapons.length; i < l; i++) {
+            weapon = this.weapons[i];
+            if (x === this.weapons[i].x && y === this.weapons[i].y && weapon.name !== nameToCheck) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    /**
+     *
+     * @param element
+     * @param randomPosition
+     * @returns {World}
+     */
+    World.prototype.addElement = function(element, randomPosition) {
+        randomPosition = !!randomPosition;
+        var position;
+        var limit = (this.weapons.length + this.characters.length) * 2 || 50;
+        var i = 0, l;
+        var nameToCheck = element.nick || element.name || null;
+        var char, weapon;
+
+        for (i = 0, l = this.characters.length; i < l; i++) {
+            char = this.characters[i];
+            if (char.nick === nameToCheck) {
+                throw Error('Name "'+nameToCheck+'" already exists in the game.');
+            }
+        }
+
+        for (i = 0, l = this.weapons.length; i < l; i++) {
+            weapon = this.weapons[i];
+            if (weapon.name === nameToCheck) {
+                throw Error('Name "'+nameToCheck+'" already exists in the game.');
+            }
+        }
+
+        if (randomPosition) {
+            i = 0;
+            do {
+                position = {
+                    x: this.aleaPosition(),
+                    y: this.aleaPosition()
+                };
+                i++;
+            } while (this.collides(position) && i < limit);
+
+            if (i >= limit) {
+                throw Error('It seems your world is full...');
+            }
+
+            element.x = position.x;
+            element.y = position.y;
+        }
+
+        if (element.isCharacter) {
+            this.characters.push(element);
+        } else if (element.isWeapon) {
+            this.weapons.push(element);
+        } else {
+            throw Error('What kind of element did you want to add to the world?');
+        }
+
+        element.image.src = element.src;
+        element.image.addEventListener('load', function(){
+            context.drawImage(element.image, element.x, element.y);
+        }, false);
+
+        return this;
+    };
+
+
+    World.prototype.aleaPosition = function() {
+        return Math.floor(Math.random() * (10 - 1)) * 50;
+    };
+
+    World.prototype.createMap = function(){
         for(var x = 0; x <= 10; x++){
             for(var y = 0; y <= 10; y++){
                 context.strokeStyle = "black";
                 context.strokeRect(x*50, y*50, 50, 50);
             }
         }
-    }
+    };
+
+    // TO BE REMOVED IN THE END
+    var createMap = World.prototype.createMap;
+    var aleaPosition = World.prototype.aleaPosition;
 
     //Constructor of characters
-    function Character(nick, x, y, src, weapon){
+    function Character(nick, x, y, src, weapon) {
+        this.isCharacter = true;
         this.nick = nick;
         this.x = x;
         this.y = y;
@@ -29,45 +136,95 @@
         this.clear = 1;
         this.oldWeapon = null;
 
-        this.moveUp = function(){
-            if(this.y == 0){
+        this.move = function (direction) {
+            var valid = {
+                    'up':    { attribute: 'y', value: -50},
+                    'down':  { attribute: 'y', value:  50},
+                    'left':  { attribute: 'x', value: -50},
+                    'right': { attribute: 'x', value:  50}
+                },
+                modificators = valid[direction];
+
+            if (!valid[direction]) {
+                throw Error('Direction not valid. Must be one of "up", "down", "left" or "right".');
+            }
+
+            console.info(this.nick+' moves '+direction);
+
+            clearContext(this.x, this.y);
+            if (this.clear !== 1) {
+                addToGame(this.oldWeapon);
+            }
+            this[modificators.attribute] = this[modificators.attribute] + modificators.value;
+            if (catchWeapon(this)) {
+                this.weapon.onTheMap(this.x, this.y);
+                this.oldWeapon = this.weapon;
+                this.weapon = returnWeaponCatch(this);
+                updateWeaponText(this);
+                addToGame(this);
+                this.clear = 0;
+            } else {
+                this.weapon[modificators.attribute] = this.weapon[modificators.attribute] + modificators.value;
+                move(this, this.weapon);
+                this.clear = 1;
+            }
+
+            console.info(this.nick+' has '+this.step+' steps');
+        };
+
+        /**
+         * @param character Character
+         * @returns {boolean}
+         */
+        var catchWeapon = function(character) {
+            return (character.x == baton.x        && character.y == baton.y)
+                || (character.x == gun.x          && character.y == gun.y)
+                || (character.x == dagger.x       && character.y == dagger.y)
+                || (character.x == weapDefaultA.x && character.y == weapDefaultA.y)
+                || (character.x == weapDefaultB.x && character.y == weapDefaultB.y)
+            ;
+        };
+
+        this.moveUp = function () {
+            if (this.y == 0) {
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
-            }else{
-                moveEngineUp(this);
+            } else {
+                this.move('up');
             }
         };
 
-        this.moveDown = function() {
-            if(this.y == 450){
+        this.moveDown = function () {
+            if (this.y == 450) {
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
-            }else {
-                moveEngineDown(this);
+            } else {
+                this.move('down');
             }
         };
 
-        this.moveRight = function(){
-            if(this.x == 450){
+        this.moveRight = function () {
+            if (this.x == 450) {
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
-            }else{
-                moveEngineRight(this);
+            } else {
+                this.move('right');
             }
         };
 
-        this.moveLeft = function(){
-            if(this.x == 0){
+        this.moveLeft = function () {
+            if (this.x == 0) {
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
-            }else{
-                moveEngineLeft(this);
+            } else {
+                this.move('left');
             }
         };
     }
 
     //Constructor of weapons
     function Weapon(name, damage, src){
+        this.isWeapon = true;
         this.name = name;
         this.damage = damage;
         this.x = aleaPosition();
@@ -90,13 +247,10 @@
 
     //Core
     function addToGame(character){
-        character.image.src = character.src;
-        character.image.addEventListener('load', function(){
-            context.drawImage(character.image, character.x, character.y);
-        }, false);
     }
 
-    function move(character, weapon){
+    function move(character){
+        var weapon = character.weapon;
         delete character.image;
         character.image = new Image();
         character.image.src = character.src;
@@ -155,7 +309,7 @@
                 character.clear = 0;
             }else {
                 character.weapon.y = character.weapon.y - 50;
-                move(character, character.weapon);
+                move(character);
                 character.clear = 1;
             }
         }else {
@@ -177,135 +331,10 @@
         }
     }
 
-    function moveEngineDown(character){
-        if(character.clear == 1){
-            clearContext(character.x, character.y);
-            character.y = character.y + 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.y = character.weapon.y + 50;
-                move(character, character.weapon);
-                character.clear = 1;
-            }
-        }else {
-            clearContext(character.x , character.y);
-            addToGame(character.oldWeapon);
-            character.y = character.y + 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.y = character.weapon.y + 50;
-                move(character, character.weapon);
-                character.clear = 1;
-            }
-        }
-    }
-
-    function moveEngineRight(character){
-        if(character.clear == 1){
-            clearContext(character.x, character.y);
-            character.x = character.x + 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.x = character.weapon.x + 50;
-                move(character, character.weapon);
-                character.clear = 1;
-            }
-        }else {
-            clearContext(character.x , character.y);
-            addToGame(character.oldWeapon);
-            character.x = character.x + 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.x = character.weapon.x + 50;
-                move(character, character.weapon);
-                character.clear = 1;
-            }
-        }
-    }
-
-    function moveEngineLeft(character){
-        if(character.clear == 1){
-            clearContext(character.x, character.y);
-            character.x = character.x - 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.x = character.weapon.x - 50;
-                move(character, character.weapon);
-                character.clear = 1;
-            }
-        }else {
-            clearContext(character.x , character.y);
-            addToGame(character.oldWeapon);
-            character.x = character.x - 50;
-            if(catchWeapon(character)){
-                character.weapon.onTheMap(character.x, character.y);
-                character.oldWeapon = character.weapon;
-                character.weapon = returnWeaponCatch(character);
-                updateWeaponText(character);
-                addToGame(character);
-                character.clear = 0;
-            }else {
-                character.weapon.x = character.weapon.x - 50;
-                move(character, character.weapon);
-                character.clear = 1;
-            }
-        }
-    }
-
     function catchWeapon(character){
-        if(character.x == baton.x && character.y == baton.y){
-            return true
-        }else if(character.x == gun.x && character.y == gun.y){
-            return true
-        }else if(character.x == dagger.x && character.y == dagger.y){
-            return true
-        }else if(character.x == weapDefaultA.x && character.y == weapDefaultA.y){
-            return true
-        }else if (character.x == weapDefaultB.x && character.y == weapDefaultB.y){
-            return true
-        }
-        else {
-            return false
-        }
     }
 
     function createText(){
-        canvas = d.createElement('canvas');
-        canvas.id = 'map';
-        canvas.style.width = '500';
-        canvas.style.height = '500';
-        gameZone.appendChild(canvas);
-
         log = d.createElement('div');
         log.id = 'log';
         title = d.createElement('h1');
@@ -366,10 +395,6 @@
         }
 
         gameZone.insertBefore(log, map);
-    }
-
-    function aleaPosition(){
-        return Math.floor(Math.random() * (10 - 1)) * 50;
     }
 
     function updateWeaponText(character){
@@ -523,8 +548,8 @@
     var gun = new Weapon('gun', 30, 'images/weaponB.png');
 
     //Character creation
-    var Greg = new Character('Greg', aleaPosition(), aleaPosition(), 'images/characterA.png');
-    var Emilie = new Character('Emilie', aleaPosition(), aleaPosition(), 'images/characterB.png');
+    var Greg = new Character('Greg', 0, 0, 'images/characterA.png');
+    var Emilie = new Character('Emilie', 0, 0, 'images/characterB.png');
 
     //Add characters into playerTable
     playerTable.push(Greg);
@@ -532,18 +557,34 @@
 
     //Launch the game
     createMap();
-    addToGame(Greg);
-    addToGame(Emilie);
     collision(Greg, Emilie);
     weapDefaultA.sendTo(Greg);
-    addToGame(weapDefaultA);
     weapDefaultB.sendTo(Emilie);
-    addToGame(weapDefaultB);
-    addToGame(baton);
-    addToGame(dagger);
-    addToGame(gun);
     collisionWeapon();
     moveCharacters();
     createText();
 
+    var world = new World();
+
+    world
+        .addElement(Greg, true)
+        .addElement(Emilie, true)
+        .addElement(weapDefaultA, true)
+        .addElement(weapDefaultB, true)
+        .addElement(baton, true)
+        .addElement(dagger, true)
+        .addElement(gun, true)
+    ;
+
+    window.world = world;
+
 })(document, window);
+
+/*
+Game
+    World
+    Characters[]
+        .world
+        .weapon
+    Weapons[]
+*/
