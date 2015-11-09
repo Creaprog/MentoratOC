@@ -3,6 +3,8 @@
     var context = map.getContext('2d');
     var round = 0;
     var playerTable = [];
+    var gameZone = d.getElementById('game');
+    var canvas, log, title, titleText, description, descriptionText, welcome, welcomeText, playerStat, playerName, space, spaceTwo, spaceTree, life, lifeValue, weaponName, damageWeapon, selectWeapon, selectWeaponDamage;
 
     //Map creation
     function createMap(){
@@ -32,36 +34,7 @@
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else{
-                if(this.clear == 1){
-                    clearContext(this.x, this.y);
-                    this.y = this.y - 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.y = this.weapon.y - 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }else {
-                    clearContext(this.x , this.y);
-                    addToGame(this.oldWeapon);
-                    this.y = this.y - 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.y = this.weapon.y - 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }
+                moveEngineUp(this);
             }
         };
 
@@ -70,36 +43,7 @@
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else {
-                if(this.clear == 1){
-                    clearContext(this.x, this.y);
-                    this.y = this.y + 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.y = this.weapon.y + 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }else {
-                    clearContext(this.x , this.y);
-                    addToGame(this.oldWeapon);
-                    this.y = this.y + 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.y = this.weapon.y + 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }
+                moveEngineDown(this);
             }
         };
 
@@ -108,36 +52,7 @@
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else{
-                if(this.clear == 1){
-                    clearContext(this.x, this.y);
-                    this.x = this.x + 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.x = this.weapon.x + 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }else {
-                    clearContext(this.x , this.y);
-                    addToGame(this.oldWeapon);
-                    this.x = this.x + 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.x = this.weapon.x + 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }
+                moveEngineRight(this);
             }
         };
 
@@ -146,36 +61,7 @@
                 this.step++;
                 console.log('vous ne pouvez pas aller dans cette direction');
             }else{
-                if(this.clear == 1){
-                    clearContext(this.x, this.y);
-                    this.x = this.x - 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.x = this.weapon.x - 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }else {
-                    clearContext(this.x , this.y);
-                    addToGame(this.oldWeapon);
-                    this.x = this.x - 50;
-                    if(catchWeapon(this)){
-                        this.weapon.onTheMap(this.x, this.y);
-                        this.oldWeapon = this.weapon;
-                        this.weapon = returnWeaponCatch(this);
-                        addToGame(this);
-                        this.clear = 0;
-                    }else {
-                        this.weapon.x = this.weapon.x - 50;
-                        move(this, this.weapon);
-                        this.clear = 1;
-                    }
-                }
+                moveEngineLeft(this);
             }
         };
     }
@@ -256,6 +142,146 @@
         }
     }
 
+    function moveEngineUp(character){
+        if(character.clear == 1){
+            clearContext(character.x, character.y);
+            character.y = character.y - 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.y = character.weapon.y - 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }else {
+            clearContext(character.x , character.y);
+            addToGame(character.oldWeapon);
+            character.y = character.y - 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.y = character.weapon.y - 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }
+    }
+
+    function moveEngineDown(character){
+        if(character.clear == 1){
+            clearContext(character.x, character.y);
+            character.y = character.y + 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.y = character.weapon.y + 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }else {
+            clearContext(character.x , character.y);
+            addToGame(character.oldWeapon);
+            character.y = character.y + 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.y = character.weapon.y + 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }
+    }
+
+    function moveEngineRight(character){
+        if(character.clear == 1){
+            clearContext(character.x, character.y);
+            character.x = character.x + 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.x = character.weapon.x + 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }else {
+            clearContext(character.x , character.y);
+            addToGame(character.oldWeapon);
+            character.x = character.x + 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.x = character.weapon.x + 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }
+    }
+
+    function moveEngineLeft(character){
+        if(character.clear == 1){
+            clearContext(character.x, character.y);
+            character.x = character.x - 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.x = character.weapon.x - 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }else {
+            clearContext(character.x , character.y);
+            addToGame(character.oldWeapon);
+            character.x = character.x - 50;
+            if(catchWeapon(character)){
+                character.weapon.onTheMap(character.x, character.y);
+                character.oldWeapon = character.weapon;
+                character.weapon = returnWeaponCatch(character);
+                updateWeaponText(character);
+                addToGame(character);
+                character.clear = 0;
+            }else {
+                character.weapon.x = character.weapon.x - 50;
+                move(character, character.weapon);
+                character.clear = 1;
+            }
+        }
+    }
+
     function catchWeapon(character){
         if(character.x == baton.x && character.y == baton.y){
             return true
@@ -273,8 +299,85 @@
         }
     }
 
+    function createText(){
+        canvas = d.createElement('canvas');
+        canvas.id = 'map';
+        canvas.style.width = '500';
+        canvas.style.height = '500';
+        gameZone.appendChild(canvas);
+
+        log = d.createElement('div');
+        log.id = 'log';
+        title = d.createElement('h1');
+        titleText = d.createTextNode('Rpg game');
+
+        title.appendChild(titleText);
+        log.appendChild(title);
+
+        description = d.createElement('p');
+        descriptionText = d.createTextNode("Bienvenue sur ce mini Rpg le but est simple : vous devez vaincre votre adversaire pour cela vous pouvez les différentes armes sur la carte de jeux. Lorsque vous vous retrouver a coter de votre adversaire un combat a mort débuttera, vous aurez alors deux possibilité la première attaquer et la seconde defencre si vous attaque vous infligerez a votre adversaire les dégats complet, si vous choissisez de vous défendre alors vous ne pourrer pas attque pendant votre tour mais vous prendrer la moitier des dégats de l'arme de votre adversaire.");
+
+        description.appendChild(descriptionText);
+        log.appendChild(description);
+
+        welcome = d.createElement('h2');
+        welcomeText = d.createTextNode('Que le combat commence !');
+
+        welcome.appendChild(welcomeText);
+        log.appendChild(welcome);
+
+        for(var i = 0, o = playerTable.length; i < o; i++){
+            playerStat = d.createElement('p');
+            playerName = d.createTextNode(playerTable[i].nick);
+
+            playerStat.appendChild(playerName);
+            space = d.createElement('br');
+            playerStat.appendChild(space);
+
+            life = d.createTextNode('life : ');
+            playerStat.appendChild(life);
+
+            lifeValue = d.createElement('progress');
+            lifeValue.id = 'life' + playerTable[i].nick;
+            lifeValue.value = playerTable[i].life;
+            lifeValue.max = playerTable[i].life;
+
+            playerStat.appendChild(lifeValue);
+
+            weaponName = d.createElement('span');
+            weaponName.id = 'weapon' + playerTable[i].nick;
+            weaponName.innerText = 'Arme : ' + playerTable[i].weapon.name;
+
+            spaceTwo = d.createElement('br');
+            playerStat.appendChild(spaceTwo);
+
+            playerStat.appendChild(weaponName);
+
+            damageWeapon = d.createElement('span');
+            damageWeapon.id = 'damage' + playerTable[i].nick;
+            damageWeapon.innerText = 'Dégat de l\'arme : ' + playerTable[i].weapon.damage;
+            spaceTree = d.createElement('br');
+            playerStat.appendChild(spaceTree);
+            playerStat.appendChild(damageWeapon);
+
+
+            log.appendChild(playerStat);
+
+        }
+
+        gameZone.insertBefore(log, map);
+    }
+
     function aleaPosition(){
         return Math.floor(Math.random() * (10 - 1)) * 50;
+    }
+
+    function updateWeaponText(character){
+        selectWeapon = d.getElementById('weapon' + character.nick);
+        selectWeapon.innerText = 'Arme : ' + character.weapon.name;
+        selectWeaponDamage = d.getElementById('damage' + character.nick);
+        selectWeaponDamage.innerText = 'Dégat de l\'arme : ' + character.weapon.damage;
+
     }
 
     function collision(character, character2){
@@ -441,5 +544,6 @@
     addToGame(gun);
     collisionWeapon();
     moveCharacters();
+    createText();
 
 })(document, window);
