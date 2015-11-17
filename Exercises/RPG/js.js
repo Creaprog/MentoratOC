@@ -45,44 +45,50 @@
 
     function fightEngine(character){
         if(isCombat(character)){
-            console.info('en combat');
+            console.info('en combat' + character.nick);
             fightMode = 1;
-            createFightText();
-                /* Greg */
-
-            /* Si c'est pas a son tour */
             if(character.step == 3){
-
+                for(var i = 0, l = playerTable.length; i < l; i++){
+                    if(playerTable[i].nick != character.nick){
+                        createFightText(playerTable[i]);
+                        createEventFight(playerTable[i]);
+                    }
+                }
+            }else{
+                createFightText(character);
+                createEventFight(character);
             }
+
             console.info(Greg);
-                var fight = d.getElementById('fightGreg');
-                fight.addEventListener('click', function(){
-                    Emilie.life = Emilie.life - Greg.weapon.damage;
-                    var lifeE = d.getElementById('lifeEmilie');
-                    lifeE.value = Emilie.life;
-                });
-
-                /* Emilie */
-                var fight2 = d.getElementById('fightEmilie');
-                fight2.addEventListener('click', function(){
-                    Greg.life = Greg.life - Emilie.weapon.damage;
-                    var lifeG = d.getElementById('lifeGreg');
-                    lifeG.value = Greg.life;
-                });
-
-        }else{
+         }else{
             console.info('pas de combats');
         }
     }
 
-   function createFightText(){
+    function getFightTime (){
+
+    }
+
+    function createEventFight (character){
+        var fight = d.getElementById('fight' + character.nick);
+        fight.addEventListener('click', function(){
+            for(var i = 0, l = playerTable.length; i < l; i++){
+                if(playerTable[i].nick != character.nick){
+                    playerTable[i].life = playerTable[i].life - character.weapon.damage;
+                    var life = d.getElementById('life' + playerTable[i].nick);
+                    life.value = playerTable[i].life;
+                }
+            }
+        });
+    }
+
+   function createFightText(character){
         var body = d.getElementById('log'), player, brP, brP2, defend, fight;
-        for(var i = 0, o = playerTable.length; i < o; i++){
-            player = d.getElementById('data' + playerTable[i].nick);
+            player = d.getElementById('data' + character.nick);
             brP = d.createElement('br');
             player.appendChild(brP);
             fight = d.createElement('input');
-            fight.id = 'fight' + playerTable[i].nick;
+            fight.id = 'fight' + character.nick;
             fight.type = 'button';
             fight.name = 'fight';
             fight.value = 'Attaquer';
@@ -95,7 +101,7 @@
             defend.value = 'Defendre';
             player.appendChild(defend);
             body.appendChild(player);
-        }
+
     }
 
     /**
@@ -329,14 +335,14 @@
 
     function isCombat(character){
         for(var i = 0, o = playerTable.length; i < o; i++){
-            if(playerTable[i].nick != character.nick){
-                if(character.y == playerTable[i].y + 50 && character.x == playerTable[i].x){
+            if( character.nick != playerTable[i].nick ) {
+                if(playerTable[i].y == character.y + 50 && playerTable[i].x == character.x){
                     return true
-                }else if(character.y == playerTable[i].y - 50 && character.x == playerTable[i].x){
+                }else if(playerTable[i].y == character.y - 50 && playerTable[i].x == character.x){
                     return true
-                }else if(character.x == playerTable[i].x - 50 && character.y == playerTable[i].y){
+                }else if(playerTable[i].x == character.x - 50 && playerTable[i].y == character.y){
                     return true
-                }else if(character.x == playerTable[i].x + 50 && character.y == playerTable[i].y){
+                }else if(playerTable[i].x == character.x + 50 && playerTable[i].y == character.y){
                     return true
                 }
             }
