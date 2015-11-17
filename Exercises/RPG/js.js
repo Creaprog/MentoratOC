@@ -49,6 +49,12 @@
             fightMode = 1;
             createFightText();
                 /* Greg */
+
+            /* Si c'est pas a son tour */
+            if(character.step == 3){
+
+            }
+            console.info(Greg);
                 var fight = d.getElementById('fightGreg');
                 fight.addEventListener('click', function(){
                     Emilie.life = Emilie.life - Greg.weapon.damage;
