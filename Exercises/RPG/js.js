@@ -2,6 +2,7 @@
     var map = d.querySelector('#map');
     var context = map.getContext('2d');
     var round = 0;
+    var fightMode = 0;
     var playerTable = [];
     var gameZone = d.getElementById('game');
     var log, title, titleText, description, descriptionText, welcome, welcomeText, playerStat, playerName, space, spaceTwo, spaceTree, life, lifeValue, weaponName, damageWeapon, selectWeapon, selectWeaponDamage, stepText, spaceStep, selectStep;
@@ -42,9 +43,54 @@
         return false;
     };
 
-    World.prototype.fightEngine = function(){
+    function fightEngine(character){
+        if(isCombat(character)){
+            console.info('en combat');
+            fightMode = 1;
+            createFightText();
+                /* Greg */
+                var fight = d.getElementById('fightGreg');
+                fight.addEventListener('click', function(){
+                    Emilie.life = Emilie.life - Greg.weapon.damage;
+                    var lifeE = d.getElementById('lifeEmilie');
+                    lifeE.value = Emilie.life;
+                });
 
-    };
+                /* Emilie */
+                var fight2 = d.getElementById('fightEmilie');
+                fight2.addEventListener('click', function(){
+                    Greg.life = Greg.life - Emilie.weapon.damage;
+                    var lifeG = d.getElementById('lifeGreg');
+                    lifeG.value = Greg.life;
+                });
+
+        }else{
+            console.info('pas de combats');
+        }
+    }
+
+   function createFightText(){
+        var body = d.getElementById('log'), player, brP, brP2, defend, fight;
+        for(var i = 0, o = playerTable.length; i < o; i++){
+            player = d.getElementById('data' + playerTable[i].nick);
+            brP = d.createElement('br');
+            player.appendChild(brP);
+            fight = d.createElement('input');
+            fight.id = 'fight' + playerTable[i].nick;
+            fight.type = 'button';
+            fight.name = 'fight';
+            fight.value = 'Attaquer';
+            player.appendChild(fight);
+            brP2 = d.createElement('br');
+            player.appendChild(brP2);
+            defend = d.createElement('input');
+            defend.type = 'button';
+            defend.name = 'defend';
+            defend.value = 'Defendre';
+            player.appendChild(defend);
+            body.appendChild(player);
+        }
+    }
 
     /**
      *
@@ -416,116 +462,134 @@
     function moveCharacters(){
         d.addEventListener('keydown', function(e){
             if(e.keyCode == 38){
-                if(round == 0) {
+                if(fightMode == 0){
+                    if(round == 0) {
+                        if (manageStep(Greg)) {
+                            Greg.moveUp();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Emilie);
+                        }else {
+                            Emilie.moveUp();
+                            Emilie.step --;
+                            world.updateStep(Emilie);
+                            fightEngine(Emilie);
 
-                    if (manageStep(Greg)) {
-                        Greg.moveUp();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
-                    }else {
-                        Emilie.moveUp();
-                        Emilie.step --;
-                        world.updateStep(Emilie);
-                        isCombat(Emilie);
+                        }
                     }
-                }
-                else{
-                    if (manageStep(Emilie)) {
-                        Emilie.moveUp();
-                        Emilie.step--;
-                        world.updateStep(Emilie);
-                        isCombat(Emilie);
-                    }else {
-                        Greg.moveUp();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
+                    else{
+                        if (manageStep(Emilie)) {
+                            Emilie.moveUp();
+                            Emilie.step--;
+                            world.updateStep(Emilie);
+                            fightEngine(Emilie);
+                        }else {
+                            Greg.moveUp();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Greg);
+                        }
                     }
+                }else{
+                    console.info('vous ne pouvez pas fuir');
                 }
+
 
             }else if(e.keyCode == 40){
-                if(round == 0) {
-                    if (manageStep(Greg)) {
-                        Greg.moveDown();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
-                    }else {
-                        Emilie.moveDown();
-                        Emilie.step --;
-                        world.updateStep(Emilie);
-                        isCombat(Emilie);
+                if(fightMode == 0){
+                    if(round == 0) {
+                        if (manageStep(Greg)) {
+                            Greg.moveDown();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Emilie);
+                        }else {
+                            Emilie.moveDown();
+                            Emilie.step --;
+                            world.updateStep(Emilie);
+                            fightEngine(Emilie);
+                        }
                     }
-                }
-                else{
-                    if (manageStep(Emilie)) {
-                         Emilie.moveDown();
-                         Emilie.step--;
-                         world.updateStep(Emilie);
-                        isCombat(Emilie);
-                    }else {
-                        Greg.moveDown();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
+                    else{
+                        if (manageStep(Emilie)) {
+                            Emilie.moveDown();
+                            Emilie.step--;
+                            world.updateStep(Emilie);
+                            fightEngine(Emilie);
+                        }else {
+                            Greg.moveDown();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Greg);
+                        }
                     }
+                }else{
+                    console.info('vous ne pouvez pas fuir');
                 }
 
             }else if(e.keyCode == 39){
-                if(round == 0) {
-                    if (manageStep(Greg)) {
-                        Greg.moveRight();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
-                    }else {
-                        Emilie.moveRight();
-                        Emilie.step --;
-                        world.updateStep(Emilie);
-                        isCombat(Emilie);
+                if(fightMode == 0){
+                    if(round == 0) {
+                        if (manageStep(Greg)) {
+                            Greg.moveRight();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Emilie);
+                        }else {
+                            Emilie.moveRight();
+                            Emilie.step --;
+                            world.updateStep(Emilie);
+                            fightEngine(Greg);
+                        }
                     }
-                }
-                else{
-                    if (manageStep(Emilie)) {
-                        Emilie.moveRight();
-                        Emilie.step--;
-                        world.updateStep(Emilie);
-                        isCombat(Emilie);
-                    }else {
-                        Greg.moveRight();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
+                    else{
+                        if (manageStep(Emilie)) {
+                            Emilie.moveRight();
+                            Emilie.step--;
+                            world.updateStep(Emilie);
+                            fightEngine(Emilie);
+                        }else {
+                            Greg.moveRight();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Greg);
+                        }
                     }
+                }else{
+                    console.info('vous ne pouvez pas fuir');
                 }
 
+
             }else if(e.keyCode == 37){
-                if(round == 0) {
-                    if (manageStep(Greg)) {
-                        Greg.moveLeft();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
-                    }else {
-                        Emilie.moveLeft();
-                        Emilie.step --;
-                        world.updateStep(Emilie);
-                        isCombat(Emilie);
+                if(fightMode == 0){
+                    if(round == 0) {
+                        if (manageStep(Greg)) {
+                            Greg.moveLeft();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Emilie);
+                        }else {
+                            Emilie.moveLeft();
+                            Emilie.step --;
+                            world.updateStep(Emilie);
+                            fightEngine(Greg);
+                        }
                     }
-                }
-                else{
-                    if (manageStep(Emilie)) {
-                        Emilie.moveLeft();
-                        Emilie.step--;
-                        world.updateStep(Emilie);
-                        isCombat(Emilie);
-                    }else {
-                        Greg.moveLeft();
-                        Greg.step--;
-                        world.updateStep(Greg);
-                        isCombat(Greg);
+                    else{
+                        if (manageStep(Emilie)) {
+                            Emilie.moveLeft();
+                            Emilie.step--;
+                            world.updateStep(Emilie);
+                            fightEngine(Emilie);
+                        }else {
+                            Greg.moveLeft();
+                            Greg.step--;
+                            world.updateStep(Greg);
+                            fightEngine(Greg);
+                        }
                     }
+                }else{
+                    console.info('vous ne pouvez pas fuir');
                 }
 
             }
