@@ -2,6 +2,7 @@
     var map = d.querySelector('#map');
     var context = map.getContext('2d');
     var round = 0;
+    var end = 0;
     var fightMode = 0;
     var playerTable = [];
     var gameZone = d.getElementById('game');
@@ -12,14 +13,14 @@
      * The world contains the characters and different weapons
      * @constructor
      */
-    var World = function(){
+    var World = function () {
         this.createMap();
     };
 
     World.prototype.characters = [];
     World.prototype.weapons = [];
 
-    World.prototype.collides = function(element)  {
+    World.prototype.collides = function (element) {
         var x = element.x,
             y = element.y,
             nameToCheck = element.nick || element.name || null,
@@ -43,65 +44,124 @@
         return false;
     };
 
-    function fightEngine(character){
-        if(isCombat(character)){
-            console.info('en combat' + character.nick);
+    function fightEngine(character) {
+        if (isCombat(character)) {
             fightMode = 1;
-            if(character.step == 3){
-                for(var i = 0, l = playerTable.length; i < l; i++){
-                    if(playerTable[i].nick != character.nick){
+            if (character.step == 3) {
+                for (var i = 0, l = playerTable.length; i < l; i++) {
+                    if (playerTable[i].nick != character.nick) {
+                        playerTable[i].isFirstFight = true;
                         createFightText(playerTable[i]);
                         createEventFight(playerTable[i]);
                     }
                 }
-            }else{
+            } else {
+                character.isFirstFight = true;
                 createFightText(character);
                 createEventFight(character);
+
             }
 
-            console.info(Greg);
-         }else{
-            console.info('pas de combats');
+        } else {
+
         }
     }
 
-    function getFightTime (){
 
+    function textEngine(character) {
+        var inputFight = d.getElementById('fight' + character.nick);
+        inputFight.parentNode.removeChild(inputFight);
+        var inputDefend = d.getElementById('defend' + character.nick);
+        inputDefend.parentNode.removeChild(inputDefend);
+        var br1 = d.getElementById('space1' + character.nick);
+        br1.parentNode.removeChild(br1);
+        var br2 = d.getElementById('space2' + character.nick);
+        br2.parentNode.removeChild(br2);
     }
 
-    function createEventFight (character){
+    function win(character) {
+        var body, winP, winText;
+
+        for (var i = 0, l = playerTable.length, removeText; i < l; i++) {
+            removeText = d.getElementById('data' + playerTable[i].nick);
+            removeText.parentNode.removeChild(removeText);
+        }
+
+        body = d.getElementById('log');
+        winP = d.createElement('p');
+        winText = d.createTextNode('Félicitation à ' + character.nick + ' qui remporte le combat ! ');
+        winP.appendChild(winText);
+        body.appendChild(winP);
+    }
+
+    function switchRound(character, character2) {
+        if (end == 0) {
+            textEngine(character);
+            createFightText(character2);
+            createEventFight(character2);
+        } else {
+            win(character);
+        }
+    }
+
+    function createEventFight(character) {
         var fight = d.getElementById('fight' + character.nick);
-        fight.addEventListener('click', function(){
-            for(var i = 0, l = playerTable.length; i < l; i++){
-                if(playerTable[i].nick != character.nick){
-                    playerTable[i].life = playerTable[i].life - character.weapon.damage;
+        var l = playerTable.length;
+
+        fight.addEventListener('click', function () {
+            for (var i = 0; i < l; i++) {
+                if (playerTable[i].nick != character.nick) {
+                    if (playerTable[i].defend) {
+                        playerTable[i].life = playerTable[i].life - character.weapon.damage / 2;
+                        playerTable[i].defend = false;
+                        if (playerTable[i].life == 0) {
+                            end = 1;
+                        }
+                    } else {
+                        playerTable[i].life = playerTable[i].life - character.weapon.damage;
+                        if (playerTable[i].life == 0) {
+                            end = 1;
+                        }
+                    }
                     var life = d.getElementById('life' + playerTable[i].nick);
                     life.value = playerTable[i].life;
+                    switchRound(character, playerTable[i]);
+                }
+            }
+        });
+
+        var defend = d.getElementById('defend' + character.nick);
+        defend.addEventListener('click', function () {
+            character.defend = true;
+            for (var i = 0; i < l; i++) {
+                if (playerTable[i].nick != character.nick) {
+                    switchRound(character, playerTable[i]);
                 }
             }
         });
     }
 
-   function createFightText(character){
+    function createFightText(character) {
         var body = d.getElementById('log'), player, brP, brP2, defend, fight;
-            player = d.getElementById('data' + character.nick);
-            brP = d.createElement('br');
-            player.appendChild(brP);
-            fight = d.createElement('input');
-            fight.id = 'fight' + character.nick;
-            fight.type = 'button';
-            fight.name = 'fight';
-            fight.value = 'Attaquer';
-            player.appendChild(fight);
-            brP2 = d.createElement('br');
-            player.appendChild(brP2);
-            defend = d.createElement('input');
-            defend.type = 'button';
-            defend.name = 'defend';
-            defend.value = 'Defendre';
-            player.appendChild(defend);
-            body.appendChild(player);
-
+        player = d.getElementById('data' + character.nick);
+        brP = d.createElement('br');
+        brP.id = 'space1' + character.nick;
+        player.appendChild(brP);
+        fight = d.createElement('input');
+        fight.id = 'fight' + character.nick;
+        fight.type = 'button';
+        fight.name = 'fight';
+        fight.value = 'Attaquer';
+        player.appendChild(fight);
+        brP2 = d.createElement('br');
+        brP2.id = 'space2' + character.nick;
+        player.appendChild(brP2);
+        defend = d.createElement('input');
+        defend.type = 'button';
+        defend.id = 'defend' + character.nick;
+        defend.value = 'Defendre';
+        player.appendChild(defend);
+        body.appendChild(player);
     }
 
     /**
@@ -110,7 +170,7 @@
      * @param randomPosition
      * @returns {World}
      */
-    World.prototype.addElement = function(element, randomPosition) {
+    World.prototype.addElement = function (element, randomPosition) {
         randomPosition = !!randomPosition;
         var position;
         var limit = (this.weapons.length + this.characters.length) * 2 || 50;
@@ -121,14 +181,14 @@
         for (i = 0, l = this.characters.length; i < l; i++) {
             char = this.characters[i];
             if (char.nick === nameToCheck) {
-                throw Error('Name "'+nameToCheck+'" already exists in the game.');
+                throw Error('Name "' + nameToCheck + '" already exists in the game.');
             }
         }
 
         for (i = 0, l = this.weapons.length; i < l; i++) {
             weapon = this.weapons[i];
             if (weapon.name === nameToCheck) {
-                throw Error('Name "'+nameToCheck+'" already exists in the game.');
+                throw Error('Name "' + nameToCheck + '" already exists in the game.');
             }
         }
 
@@ -159,7 +219,7 @@
         }
 
         element.image.src = element.src;
-        element.image.addEventListener('load', function(){
+        element.image.addEventListener('load', function () {
             context.drawImage(element.image, element.x, element.y);
         }, false);
 
@@ -167,27 +227,27 @@
     };
 
 
-    World.prototype.aleaPosition = function() {
+    World.prototype.aleaPosition = function () {
         return Math.floor(Math.random() * (10 - 1)) * 50;
     };
 
-    World.prototype.createMap = function(){
-        for(var x = 0; x <= 10; x++){
-            for(var y = 0; y <= 10; y++){
+    World.prototype.createMap = function () {
+        for (var x = 0; x <= 10; x++) {
+            for (var y = 0; y <= 10; y++) {
                 context.strokeStyle = "black";
-                context.strokeRect(x*50, y*50, 50, 50);
+                context.strokeRect(x * 50, y * 50, 50, 50);
             }
         }
     };
 
-    World.prototype.drawElement = function(element){
+    World.prototype.drawElement = function (element) {
         element.image.src = element.src;
-        element.image.addEventListener('load', function(){
+        element.image.addEventListener('load', function () {
             context.drawImage(element.image, element.x, element.y);
         }, false);
     };
 
-    World.prototype.updateStep = function (character){
+    World.prototype.updateStep = function (character) {
         selectStep = d.getElementById('step' + character.nick);
         selectStep.innerText = 'Déplacement restant : ' + character.step;
     };
@@ -207,8 +267,9 @@
         this.step = 3;
         this.clear = 1;
         this.oldWeapon = null;
+        this.defend = false;
 
-        this.setWeapon = function(weapon){
+        this.setWeapon = function (weapon) {
             this.weapon = weapon;
             weapon.x = this.x;
             weapon.y = this.y;
@@ -216,10 +277,10 @@
 
         this.move = function (direction) {
             var valid = {
-                    'up':    { attribute: 'y', value: -50},
-                    'down':  { attribute: 'y', value:  50},
-                    'left':  { attribute: 'x', value: -50},
-                    'right': { attribute: 'x', value:  50}
+                    'up': {attribute: 'y', value: -50},
+                    'down': {attribute: 'y', value: 50},
+                    'left': {attribute: 'x', value: -50},
+                    'right': {attribute: 'x', value: 50}
                 },
                 modificators = valid[direction];
 
@@ -227,7 +288,7 @@
                 throw Error('Direction not valid. Must be one of "up", "down", "left" or "right".');
             }
 
-            console.info(this.nick+' moves '+direction);
+            console.info(this.nick + ' moves ' + direction);
 
             clearContext(this.x, this.y);
             if (this.clear !== 1) {
@@ -253,19 +314,19 @@
          * @param character Character
          * @returns {boolean}
          */
-        var catchWeapon = function(character) {
-            return (character.x == baton.x        && character.y == baton.y)
-                || (character.x == gun.x          && character.y == gun.y)
-                || (character.x == dagger.x       && character.y == dagger.y)
+        var catchWeapon = function (character) {
+            return (character.x == baton.x && character.y == baton.y)
+                || (character.x == gun.x && character.y == gun.y)
+                || (character.x == dagger.x && character.y == dagger.y)
                 || (character.x == weapDefaultA.x && character.y == weapDefaultA.y)
                 || (character.x == weapDefaultB.x && character.y == weapDefaultB.y)
-            ;
+                ;
         };
 
         this.moveUp = function () {
             if (this.y == 0) {
                 this.step++;
-                console.log('vous ne pouvez pas aller dans cette direction');
+                console.log("you can't go in this direction");
             } else {
                 this.move('up');
             }
@@ -274,7 +335,7 @@
         this.moveDown = function () {
             if (this.y == 450) {
                 this.step++;
-                console.log('vous ne pouvez pas aller dans cette direction');
+                console.log("you can't go in this direction");
             } else {
                 this.move('down');
             }
@@ -283,7 +344,7 @@
         this.moveRight = function () {
             if (this.x == 450) {
                 this.step++;
-                console.log('vous ne pouvez pas aller dans cette direction');
+                console.log("you can't go in this direction");
             } else {
                 this.move('right');
             }
@@ -292,7 +353,7 @@
         this.moveLeft = function () {
             if (this.x == 0) {
                 this.step++;
-                console.log('vous ne pouvez pas aller dans cette direction');
+                console.log("you can't go in this direction");
             } else {
                 this.move('left');
             }
@@ -302,7 +363,7 @@
     }
 
     //Constructor of weapons
-    function Weapon(name, damage, src){
+    function Weapon(name, damage, src) {
         this.isWeapon = true;
         this.name = name;
         this.damage = damage;
@@ -312,56 +373,56 @@
         this.image = new Image();
 
 
-        this.onTheMap = function(cordx, cordy){
+        this.onTheMap = function (cordx, cordy) {
             this.x = cordx;
             this.y = cordy;
             world.drawElement(this);
         };
     }
 
-    function move(character){
+    function move(character) {
         var weapon = character.weapon;
         delete character.image;
         character.image = new Image();
         character.image.src = character.src;
-        character.image.addEventListener('load', function(){
+        character.image.addEventListener('load', function () {
             context.drawImage(character.image, character.x, character.y);
         }, false);
         weapon.image.src = weapon.src;
-        weapon.image.addEventListener('load', function(){
+        weapon.image.addEventListener('load', function () {
             context.drawImage(weapon.image, weapon.x, weapon.y)
         }, false);
     }
 
-    function isCombat(character){
-        for(var i = 0, o = playerTable.length; i < o; i++){
-            if( character.nick != playerTable[i].nick ) {
-                if(playerTable[i].y == character.y + 50 && playerTable[i].x == character.x){
+    function isCombat(character) {
+        for (var i = 0, o = playerTable.length; i < o; i++) {
+            if (character.nick != playerTable[i].nick) {
+                if (playerTable[i].y == character.y + 50 && playerTable[i].x == character.x) {
                     return true
-                }else if(playerTable[i].y == character.y - 50 && playerTable[i].x == character.x){
+                } else if (playerTable[i].y == character.y - 50 && playerTable[i].x == character.x) {
                     return true
-                }else if(playerTable[i].x == character.x - 50 && playerTable[i].y == character.y){
+                } else if (playerTable[i].x == character.x - 50 && playerTable[i].y == character.y) {
                     return true
-                }else if(playerTable[i].x == character.x + 50 && playerTable[i].y == character.y){
+                } else if (playerTable[i].x == character.x + 50 && playerTable[i].y == character.y) {
                     return true
                 }
             }
-            else{
+            else {
                 return false
             }
         }
     }
 
-    function returnWeaponCatch(character){
-        if(character.x == baton.x && character.y == baton.y && character.weapon.name != baton.name){
+    function returnWeaponCatch(character) {
+        if (character.x == baton.x && character.y == baton.y && character.weapon.name != baton.name) {
             return baton
-        }else if(character.x == gun.x && character.y == gun.y && character.weapon.name != gun.name){
+        } else if (character.x == gun.x && character.y == gun.y && character.weapon.name != gun.name) {
             return gun
-        }else if(character.x == dagger.x && character.y == dagger.y && character.weapon.name != dagger.name){
+        } else if (character.x == dagger.x && character.y == dagger.y && character.weapon.name != dagger.name) {
             return dagger
-        }else if(character.x == weapDefaultA.x && character.y == weapDefaultA.y && character.weapon.name != weapDefaultA.name){
+        } else if (character.x == weapDefaultA.x && character.y == weapDefaultA.y && character.weapon.name != weapDefaultA.name) {
             return weapDefaultA
-        }else if(character.x == weapDefaultB.x && character.y == weapDefaultB.y && character.weapon.name != weapDefaultB.name){
+        } else if (character.x == weapDefaultB.x && character.y == weapDefaultB.y && character.weapon.name != weapDefaultB.name) {
             return weapDefaultB
         }
         else {
@@ -369,7 +430,7 @@
         }
     }
 
-    function createText(){
+    function createText() {
         log = d.createElement('div');
         log.id = 'log';
         title = d.createElement('h1');
@@ -390,7 +451,7 @@
         welcome.appendChild(welcomeText);
         log.appendChild(welcome);
 
-        for(var i = 0, o = playerTable.length; i < o; i++){
+        for (var i = 0, o = playerTable.length; i < o; i++) {
             playerStat = d.createElement('p');
             playerStat.id = 'data' + playerTable[i].nick;
             playerName = d.createTextNode(playerTable[i].nick);
@@ -411,7 +472,6 @@
 
             weaponName = d.createElement('span');
             weaponName.id = 'weapon' + playerTable[i].nick;
-            console.info(playerTable[i]);
             weaponName.innerText = 'Arme : ' + playerTable[i].weapon.name;
 
 
@@ -432,7 +492,7 @@
 
             stepText = d.createElement('span');
             stepText.id = 'step' + playerTable[i].nick;
-            stepText.innerText = 'Déplacement restant : '+ playerTable[i].step;
+            stepText.innerText = 'Déplacement restant : ' + playerTable[i].step;
             playerStat.appendChild(stepText);
 
 
@@ -443,7 +503,7 @@
         gameZone.insertBefore(log, map);
     }
 
-    function updateWeaponText(character){
+    function updateWeaponText(character) {
         selectWeapon = d.getElementById('weapon' + character.nick);
         selectWeapon.innerText = 'Arme : ' + character.weapon.name;
         selectWeaponDamage = d.getElementById('damage' + character.nick);
@@ -451,162 +511,166 @@
     }
 
 
-    function clearContext(x, y){
+    function clearContext(x, y) {
         context.clearRect(x, y, 50, 50);
         context.strokeStyle = "black";
         context.strokeRect(x, y, 50, 50);
     }
 
-    function manageStep(character){
-        if(character.step > 0){
+    function manageStep(character) {
+        if (character.step > 0) {
             return true;
-        }else if(character.step == 0){
+        } else if (character.step == 0) {
             character.step = 3;
-            if(round == 0){
+            if (round == 0) {
                 round = 1;
-            }else{
+            } else {
                 round = 0;
             }
             return false;
         }
     }
 
-    function moveCharacters(){
-        d.addEventListener('keydown', function(e){
-            if(e.keyCode == 38){
-                if(fightMode == 0){
-                    if(round == 0) {
-                        if (manageStep(Greg)) {
-                            Greg.moveUp();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Emilie);
-                        }else {
-                            Emilie.moveUp();
-                            Emilie.step --;
-                            world.updateStep(Emilie);
-                            fightEngine(Emilie);
+    function moveCharacters() {
+        d.addEventListener('keydown', function (e) {
+            if (e.keyCode == 38) {
+                if (fightMode == 0) {
+                    if (round == 0) {
+                        if (manageStep(playerA)) {
+                            playerA.moveUp();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerB);
+                        } else {
+                            playerB.moveUp();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerB);
 
                         }
                     }
-                    else{
-                        if (manageStep(Emilie)) {
-                            Emilie.moveUp();
-                            Emilie.step--;
-                            world.updateStep(Emilie);
-                            fightEngine(Emilie);
-                        }else {
-                            Greg.moveUp();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Greg);
+                    else {
+                        if (manageStep(playerB)) {
+                            playerB.moveUp();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerB);
+                        } else {
+                            playerA.moveUp();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerA);
                         }
                     }
-                }else{
-                    console.info('vous ne pouvez pas fuir');
+                } else {
+                    console.info("you can't escape you");
                 }
 
 
-            }else if(e.keyCode == 40){
-                if(fightMode == 0){
-                    if(round == 0) {
-                        if (manageStep(Greg)) {
-                            Greg.moveDown();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Emilie);
-                        }else {
-                            Emilie.moveDown();
-                            Emilie.step --;
-                            world.updateStep(Emilie);
-                            fightEngine(Emilie);
+            } else if (e.keyCode == 40) {
+                if (fightMode == 0) {
+                    if (round == 0) {
+                        if (manageStep(playerA)) {
+                            playerA.moveDown();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerB);
+                        } else {
+                            playerB.moveDown();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerB);
                         }
                     }
-                    else{
-                        if (manageStep(Emilie)) {
-                            Emilie.moveDown();
-                            Emilie.step--;
-                            world.updateStep(Emilie);
-                            fightEngine(Emilie);
-                        }else {
-                            Greg.moveDown();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Greg);
+                    else {
+                        if (manageStep(playerB)) {
+                            playerB.moveDown();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerB);
+                        } else {
+                            playerA.moveDown();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerA);
                         }
                     }
-                }else{
-                    console.info('vous ne pouvez pas fuir');
+                } else {
+                    console.info("you can't escape you");
                 }
 
-            }else if(e.keyCode == 39){
-                if(fightMode == 0){
-                    if(round == 0) {
-                        if (manageStep(Greg)) {
-                            Greg.moveRight();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Emilie);
-                        }else {
-                            Emilie.moveRight();
-                            Emilie.step --;
-                            world.updateStep(Emilie);
-                            fightEngine(Greg);
+            } else if (e.keyCode == 39) {
+                if (fightMode == 0) {
+                    if (round == 0) {
+                        if (manageStep(playerA)) {
+                            playerA.moveRight();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerB);
+                        } else {
+                            playerB.moveRight();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerA);
                         }
                     }
-                    else{
-                        if (manageStep(Emilie)) {
-                            Emilie.moveRight();
-                            Emilie.step--;
-                            world.updateStep(Emilie);
-                            fightEngine(Emilie);
-                        }else {
-                            Greg.moveRight();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Greg);
+                    else {
+                        if (manageStep(playerB)) {
+                            playerB.moveRight();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerB);
+                        } else {
+                            playerA.moveRight();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerA);
                         }
                     }
-                }else{
-                    console.info('vous ne pouvez pas fuir');
+                } else {
+                    console.info("you can't escape you");
                 }
 
 
-            }else if(e.keyCode == 37){
-                if(fightMode == 0){
-                    if(round == 0) {
-                        if (manageStep(Greg)) {
-                            Greg.moveLeft();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Emilie);
-                        }else {
-                            Emilie.moveLeft();
-                            Emilie.step --;
-                            world.updateStep(Emilie);
-                            fightEngine(Greg);
+            } else if (e.keyCode == 37) {
+                if (fightMode == 0) {
+                    if (round == 0) {
+                        if (manageStep(playerA)) {
+                            playerA.moveLeft();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerB);
+                        } else {
+                            playerB.moveLeft();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerA);
                         }
                     }
-                    else{
-                        if (manageStep(Emilie)) {
-                            Emilie.moveLeft();
-                            Emilie.step--;
-                            world.updateStep(Emilie);
-                            fightEngine(Emilie);
-                        }else {
-                            Greg.moveLeft();
-                            Greg.step--;
-                            world.updateStep(Greg);
-                            fightEngine(Greg);
+                    else {
+                        if (manageStep(playerB)) {
+                            playerB.moveLeft();
+                            playerB.step--;
+                            world.updateStep(playerB);
+                            fightEngine(playerB);
+                        } else {
+                            playerA.moveLeft();
+                            playerA.step--;
+                            world.updateStep(playerA);
+                            fightEngine(playerA);
                         }
                     }
-                }else{
-                    console.info('vous ne pouvez pas fuir');
+                } else {
+                    console.info("you can't escape you");
                 }
 
             }
         })
     }
+
+    //Player name request
+    var playerA = prompt('What is the name of player 1 ?');
+    var playerB = prompt('What is the name of player 2 ?');
 
     //Weapon creation
     var weapDefaultA = new Weapon('swordA', 10, 'images/weaponC.png');
@@ -616,14 +680,14 @@
     var gun = new Weapon('gun', 30, 'images/weaponB.png');
 
     //Character creation
-    var Greg = new Character('Greg', 0, 0, 'images/characterA.png');
-    var Emilie = new Character('Emilie', 0, 0, 'images/characterB.png');
+    playerA = new Character(playerA, 0, 0, 'images/characterA.png');
+    playerB = new Character(playerB, 0, 0, 'images/characterB.png');
 
     var world = new World();
 
     world
-        .addElement(Greg, true)
-        .addElement(Emilie, true)
+        .addElement(playerA, true)
+        .addElement(playerB, true)
         .addElement(weapDefaultA, true)
         .addElement(weapDefaultB, true)
         .addElement(baton, true)
@@ -631,19 +695,19 @@
         .addElement(gun, true)
     ;
     w.world = world;
-    playerTable.push(Greg);
-    playerTable.push(Emilie);
-    Greg.setWeapon(weapDefaultA);
-    Emilie.setWeapon(weapDefaultB);
+    playerTable.push(playerA);
+    playerTable.push(playerB);
+    playerA.setWeapon(weapDefaultA);
+    playerB.setWeapon(weapDefaultB);
     createText();
     moveCharacters();
 })(document, window);
 
 /*
-Game
-    World
-    Characters[]
-        .world
-        .weapon
-    Weapons[]
-*/
+ Game
+ World
+ Characters[]
+ .world
+ .weapon
+ Weapons[]
+ */
