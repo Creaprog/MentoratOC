@@ -62,8 +62,6 @@
 
             }
 
-        } else {
-
         }
     }
 
@@ -546,7 +544,6 @@
                             playerB.step--;
                             world.updateStep(playerB);
                             fightEngine(playerB);
-
                         }
                     }
                     else {
