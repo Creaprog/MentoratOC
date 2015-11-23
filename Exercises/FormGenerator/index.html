@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #gauche {
+            float: left;
+            width: 70%;
+            height: 1000px;
+            background-color: #EFECCA;
+            padding: 10px;
+        }
+
+        #droite {
+            background-color: #CEFFF8;
+            height: 1000px;
+            padding: 10px;
+            padding-left: 71%;
+        }
+
+        button, input {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        span {
+            font-weight: bold;
+        }
+
+        label {
+            padding-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="gauche">
+</div>
+<div id="droite">
+    Utilisez ces boutons pour créer votre formulaire<br><br>
+    <button id="gen_label">Label</button>
+    <button id="gen_text">Zone de texte</button>
+    <button id="gen_button">Bouton</button>
+</div>
+
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script>
+    $(function () {
+        function genCore(element) {
+            var valid = {
+                        'label': {value: 'label'},
+                        'text': {value: 'text'},
+                        'button': {value: 'button'},
+                        'insertLabel': {value: 'insertLabel'},
+                        'insertText': {value: 'insertText'},
+                        'insertButton': {value: 'insertButton'}
+                    },
+                    create = valid[element];
+
+            if (!valid[element]) {
+                throw Error('Element not valid. Must be one of "label", "text", "button", "insertLabel", "insertText" or "insertButton" .');
+            }
+
+            if (create.value == 'label') {
+                $('#droite').append("<p class='label_creation'><label for='gen_label_area'>Texte du label </label><input type='text' id='gen_label_area' name='gen_label_area' /><button class='insert_label'>Ok</button></p>");
+            } else if (create.value == 'text') {
+                $('#droite').append("<p class='text_creation'><label for='gen_text_area'>id de la zone de texte </label><input type='text' id='gen_text_area' name='gen_text_area' /><button class='insert_text'>Ok</button></p>");
+            } else if (create.value == 'button') {
+                $('#droite').append("<p class='button_creation'><label for='gen_button_area'>Texte du button </label><input type='text' id='gen_button_area' name='gen_button_area' /><button class='insert_button'>Ok</button></p>");
+            } else if (create.value == 'insertLabel') {
+                var labelName = $('#gen_label_area').val();
+                $('#gauche').append('<span>' + labelName + '</span>');
+                $('.label_creation').remove();
+            } else if (create.value == 'insertText') {
+                var idName = $('#gen_text_area').val();
+                $('#gauche').append('<input id=" ' + idName + '" type="text"><br /><br />');
+                $('.text_creation').remove();
+            } else {
+                var buttonName = $('#gen_button_area').val();
+                $('#gauche').append('<button>' + buttonName + '</button>');
+                $('.button_creation').remove();
+            }
+        }
+
+        $('#droite').append('<hr>').on("click", '.insert_label, .insert_text, .insert_button', function (event) {
+            if (event.target.className === 'insert_label') {
+                genCore('insertLabel');
+            } else if (event.target.className === 'insert_text') {
+                genCore('insertText');
+            } else {
+                genCore('insertButton');
+            }
+        });
+
+        $('#gen_label').on("click", function () {
+            genCore('label');
+        });
+
+        $('#gen_text').on("click", function () {
+            genCore('text');
+        });
+
+        $('#gen_button').on("click", function () {
+            genCore('button');
+        });
+    });
+</script>
+
+</body>
+</html>
