@@ -1,70 +1,77 @@
-$(function () {
-
-    /**
-     * The genCore is the core of Form generator
-     * @param element
-     * To create element into the form generator you must call the genCore
-     * Exemple: to add a creation label area in the generator:
-     * genCore('label')
-     * Exemple: to add label in the form:
-     * genCore('insertLabel')
-     */
-
-    function genCore(element) {
-        var valid = {
-                'label': {value: 'label'},
-                'text': {value: 'text'},
-                'button': {value: 'button'},
-                'insertLabel': {value: 'insertLabel'},
-                'insertText': {value: 'insertText'},
-                'insertButton': {value: 'insertButton'}
-            },
-            create = valid[element];
-
-        if (!valid[element]) {
-            throw Error('Element not valid. Must be one of "label", "text", "button", "insertLabel", "insertText" or "insertButton" .');
-        }
-
-        if (create.value == 'label') {
-            $('#droite').append("<p class='label_creation'><label for='gen_label_area'>Texte du label </label><input type='text' id='gen_label_area' name='gen_label_area' /><button class='insert_label'>Ok</button></p>");
-        } else if (create.value == 'text') {
-            $('#droite').append("<p class='text_creation'><label for='gen_text_area'>id de la zone de texte </label><input type='text' id='gen_text_area' name='gen_text_area' /><button class='insert_text'>Ok</button></p>");
-        } else if (create.value == 'button') {
-            $('#droite').append("<p class='button_creation'><label for='gen_button_area'>Texte du button </label><input type='text' id='gen_button_area' name='gen_button_area' /><button class='insert_button'>Ok</button></p>");
-        } else if (create.value == 'insertLabel') {
-            var labelName = $('#gen_label_area').val();
-            $('#gauche').append('<span>' + labelName + '</span>');
-            $('.label_creation').remove();
-        } else if (create.value == 'insertText') {
-            var idName = $('#gen_text_area').val();
-            $('#gauche').append('<input id=" ' + idName + '" type="text"><br /><br />');
-            $('.text_creation').remove();
-        } else {
-            var buttonName = $('#gen_button_area').val();
-            $('#gauche').append('<button>' + buttonName + '</button>');
-            $('.button_creation').remove();
-        }
+$(function(){
+    function disable(){
+        $(':button').css('opacity', '0.5').off();
     }
 
-    $('#droite').append('<hr>').on("click", '.insert_label, .insert_text, .insert_button', function (event) {
-        if (event.target.className === 'insert_label') {
-            genCore('insertLabel');
-        } else if (event.target.className === 'insert_text') {
-            genCore('insertText');
-        } else {
-            genCore('insertButton');
-        }
+    function enable(){
+        $(':button').css('opacity', '1').on();
+    }
+
+    $('#btn1')
+        .on('click', disable)
+        .click(function() {
+        $('hr').after('<div id="conteneur">Texte du label <input type="text" id="tex"><button id="btnok">OK</button><br /><button id="btnCancel">Annuler</button></div>');
+        /* Hide permet de voir le fadeIn */
+        $('#conteneur').hide().fadeIn(1500, 'linear');
+        $('#btnok').click(function(){
+            var lid =  '<span>' + $('#tex').val() + '</span>';
+            $('#gauche').append(lid);
+            /* la fonction permet de voir le fadeOut et quand il est fini il supprime le conteneur */
+            $('#conteneur').fadeOut(1500, 'linear', function(){
+                $(this).remove();
+            });
+        });
+        /* Code pour le bouton annuler on fait le fadeout et on supprime */
+        $('#btnCancel').click(function(){
+            /* la fonction permet de voir le fadeOut et quand il est fini il supprime le conteneur */
+            $('#conteneur').fadeOut(1500, 'linear', function(){
+                $(this).remove();
+            });
+        });
     });
 
-    $('#gen_label').on("click", function () {
-        genCore('label');
+    $('#btn2')
+        .on('click', disable)
+        .click(function(){
+        $('hr').after('<div id="conteneur">id de la zone de texte <input type="text" id="tex"><button id="btnok">OK</button><br /><button id="btnCancel">Annuler</button></div>');
+        /* Hide permet de voir le fadeIn */
+        $('#conteneur').hide().fadeIn(1500, 'linear');
+        $('#btnok').click(function(){
+            var lid =  '<input type="text" id="' + $('#tex').val() + '"><br>';
+            $('#gauche').append(lid);
+            /* la fonction permet de voir le fadeOut et quand il est fini il supprime le conteneur */
+            $('#conteneur').fadeOut(1500, 'linear', function(){
+                $(this).remove();
+            });
+        });
+        /* Code pour le bouton annuler on fait le fadeout et on supprime */
+        $('#btnCancel').click(function(){
+            /* la fonction permet de voir le fadeOut et quand il est fini il supprime le conteneur */
+            $('#conteneur').fadeOut(1500, 'linear', function(){
+                $(this).remove();
+            });
+        });
     });
-
-    $('#gen_text').on("click", function () {
-        genCore('text');
-    });
-
-    $('#gen_button').on("click", function () {
-        genCore('button');
+    $('#btn3')
+        .on('click', disable)
+        .click(function(){
+        $('hr').after('<div id="conteneur">Texte du bouton <input type="text" id="tex"><button id="btnok">OK</button><br /><button id="btnCancel">Annuler</button></div>');
+        /* Hide permet de voir le fadeIn */
+        $('#conteneur').hide().fadeIn(1500, 'linear');
+        $('#btnok').click(function(){
+            var lid =  '<button>' + $('#tex').val() + '</button>';
+            $('#gauche').append(lid);
+            /* la fonction permet de voir le fadeOut et quand il est fini il supprime le conteneur */
+            $('#conteneur').fadeOut(1500, 'linear', function(){
+                $(this).remove();
+            });
+        });
+        /* Code pour le bouton annuler on fait le fadeout et on supprime */
+        $('#btnCancel').click(function(){
+            /* la fonction permet de voir le fadeOut et quand il est fini il supprime le conteneur */
+            $('#conteneur').fadeOut(1500, 'linear', function(){
+                $(this).remove();
+            });
+        });
     });
 });
