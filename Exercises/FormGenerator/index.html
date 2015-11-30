@@ -1,20 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #gauche {
+            float: left;
+            width: 70%;
+            height: 1000px;
+            background-color: #EFECCA;
+        }
+
+        #droite {
+            background-color: #CEFFF8;
+            height: 1000px;
+            padding: 10px;
+            padding-left: 71%;
+        }
+
+        span, button, input {
+            margin: 10px;
+        }
+
+        button:hover:enabled {
+            box-shadow: 5px 5px 5px grey;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 <body>
 <div id="gauche">
 </div>
 <div id="droite">
     Utilisez ces boutons pour créer votre formulaire<br><br>
-    <input type="button" id="btn1" value="Label">
-    <input type="button" id="btn2" value="Zone de texte">
-    <input type="button" id="btn3" value="Bouton">
+    <button id="btn1" class="btnprincipal">Label</button>
+    <button id="btn2" class="btnprincipal">Zone de texte</button>
+    <button id="btn3" class="btnprincipal">Bouton</button>
     <hr>
 </div>
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="js.js"></script>
+<script>
+    $(function () {
+        $('#btn1').click(function () {
+            $('hr').after('<div id="conteneur">Texte du label <input type="text" id="tex"><button id="btnok">OK</button><button id="btnannuler">Annuler</button></div>');
+            $('.btnprincipal').attr('disabled', 'disabled');
+            /* on ajoute une petite div help */
+            $('#conteneur').hide().fadeIn(2000).after('<div id="help"></div>');
+            $('#tex').focus();
+            $('#btnok').click(function () {
+                var lid = '<span>' + $('#tex').val() + '</span>';
+                $('#gauche').append(lid);
+                $('#conteneur').fadeOut(2000, function () {
+                    $('#conteneur').remove();
+                    $('.btnprincipal').removeAttr('disabled');
+                });
+                /* on applique le meme effet a la div help */
+                $('#help').fadeOut(2000, function () {
+                    $('#help').remove();
+                });
+            });
+            $('#btnannuler').click(function () {
+                $('#conteneur').fadeOut(2000, function () {
+                    $('#conteneur').remove();
+                    $('.btnprincipal').removeAttr('disabled');
+                });
+                /* on applique le meme effet a la div help */
+                $('#help').fadeOut(2000, function () {
+                    $('#help').remove();
+                });
+            });
+            /* on charge la div help avec le fichier data, ensuite on cree un tableau en recuperant les texte separer par # et on affiche l'element du tableau qui corespond */
+            $('#help').load('data', function (donnees) {
+                var stringArray = donnees.split('#');
+                $(this).hide().text(stringArray[0]).fadeIn(2000);
+            });
+        });
+        $('#btn2').click(function () {
+            $('hr').after('<div id="conteneur">id de la zone de texte <input type="text" id="tex"><button id="btnok">OK</button><button id="btnannuler">Annuler</button></div>');
+            $('.btnprincipal').attr('disabled', 'disabled');
+            /* on ajoute une petite div help */
+            $('#conteneur').hide().fadeIn(2000).after('<div id="help"></div>');
+            $('#tex').focus();
+            $('#btnok').click(function () {
+                var lid = '<input type="text" id="' + $('#tex').val() + '"><br>';
+                $('#gauche').append(lid);
+                $('#conteneur').fadeOut(2000, function () {
+                    $('#conteneur').remove();
+                    $('.btnprincipal').removeAttr('disabled');
+                });
+                /* on applique le meme effet a la div help */
+                $('#help').fadeOut(2000, function () {
+                    $('#help').remove();
+                });
+            });
+            $('#btnannuler').click(function () {
+                $('#conteneur').fadeOut(2000, function () {
+                    $('#conteneur').remove();
+                    $('.btnprincipal').removeAttr('disabled');
+                });
+                /* on applique le meme effet a la div help */
+                $('#help').fadeOut(2000, function () {
+                    $('#help').remove();
+                });
+            });
+            /* on charge la div help avec le fichier data, ensuite on cree un tableau en recuperant les texte separer par # et on affiche l'element du tableau qui corespond */
+            $('#help').load('data', function (donnees) {
+                var stringArray = donnees.split('#');
+                $(this).hide().text(stringArray[1]).fadeIn(2000);
+            });
+        });
+        $('#btn3').click(function () {
+            $('hr').after('<div id="conteneur">Texte du bouton <input type="text" id="tex"><button id="btnok">OK</button><button id="btnannuler">Annuler</button></div>');
+            $('.btnprincipal').attr('disabled', 'disabled');
+            /* on ajoute une petite div help */
+            $('#conteneur').hide().fadeIn(2000).after('<div id="help"></div>');
+            $('#tex').focus();
+            $('#btnok').click(function () {
+                var lid = '<button>' + $('#tex').val() + '</button><br>';
+                $('#gauche').append(lid);
+                $('#conteneur').fadeOut(2000, function () {
+                    $('#conteneur').remove();
+                    $('.btnprincipal').removeAttr('disabled');
+                });
+                /* on applique le meme effet a la div help */
+                $('#help').fadeOut(2000, function () {
+                    $('#help').remove();
+                });
+            });
+            $('#btnannuler').click(function () {
+                $('#conteneur').fadeOut(2000, function () {
+                    $('#conteneur').remove();
+                    $('.btnprincipal').removeAttr('disabled');
+                });
+                /* on applique le meme effet a la div help */
+                $('#help').fadeOut(2000, function () {
+                    $('#help').remove();
+                });
+            });
+            /* on charge la div help avec le fichier data, ensuite on cree un tableau en recuperant les texte separer par # et on affiche l'element du tableau qui corespond */
+            $('#help').load('data', function (donnees) {
+                var stringArray = donnees.split('#');
+                $(this).hide().text(stringArray[2]).fadeIn(2000);
+            });
+        });
+    });
+</script>
+
+
 </body>
 </html>
