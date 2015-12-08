@@ -5,7 +5,7 @@ Description : For this exercise you need do this :
 - Make a form generator :
     - Button, input of text and label
 
-- For these option :
+- For these options :
     - Cancel and valid button
     - Esthetic transition
     - Help message with ajax
