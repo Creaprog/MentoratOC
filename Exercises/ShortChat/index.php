@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,7 @@
 <form action="post.php" method="post">
     <p>
         <label for="pseudo">Pseudo :</label>
-        <input type="text" name="pseudo" id="pseudo"/>
+        <input type="text" name="pseudo" id="pseudo" value="<?php if(!empty($_SESSION['pseudo'])){echo $_SESSION['pseudo'];} ?>"/>
         <br/>
         <label for="message">Message :</label>
         <input type="text" name="message" id="message"/>
