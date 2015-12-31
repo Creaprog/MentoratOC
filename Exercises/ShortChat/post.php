@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!empty($_POST['pseudo']) AND !empty($_POST['message'])){
+if(isset($_POST['pseudo'])&&!empty($_POST['pseudo'])&&isset($_POST['message'])&&!empty($_POST['message'])){
     $author = htmlspecialchars($_POST['pseudo']);
     $message = htmlspecialchars($_POST['message']);
     try {
