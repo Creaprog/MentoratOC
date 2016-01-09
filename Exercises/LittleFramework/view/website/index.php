@@ -28,5 +28,19 @@ foreach ($news as $new) {
     <?php
 }
 ?>
+<form action="index" method="post">
+    <p>
+        <label for="title">Title :</label>
+        <input type="text" name="title" id="title" />
+        <br />
+        <label for="text">Text :</label>
+        <input type="text" name="text" id="text" />
+        <br />
+        <label for="author">Author :</label>
+        <input type="text" name="author" id="author" />
+        <br />
+        <input type="submit" value="Send"/>
+    </p>
+</form>
 </body>
 </html>
