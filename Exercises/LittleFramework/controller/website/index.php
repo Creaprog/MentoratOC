@@ -1,7 +1,6 @@
 <?php
 include_once "model/website/get_news.php";
-if(isset($_POST['title'], $_POST['text'], $_POST['author']) && $_POST['title'] && $_POST['text'] && $_POST['author'])
-{
+if (isset($_POST['title'], $_POST['text'], $_POST['author']) && $_POST['title'] && $_POST['text'] && $_POST['author']) {
     include_once "model/website/add_new.php";
 
     $title = htmlspecialchars($_POST['title']);
