@@ -1,7 +1,9 @@
 <?php
-include_once "model/website/get_news.php";
+require_once ROOT.'/functions/load_model.php';
+require_once ROOT.'/functions/load_view.php';
+load_model('get_news');
 if (isset($_POST['title'], $_POST['text'], $_POST['author']) && $_POST['title'] && $_POST['text'] && $_POST['author']) {
-    include_once "model/website/add_new.php";
+    load_model('add_new');
 
     $title = htmlspecialchars($_POST['title']);
     $text = htmlspecialchars($_POST['text']);
@@ -18,4 +20,4 @@ foreach ($news as $key => $new) {
     $news[$key]['author'] = htmlspecialchars($new['author']);
 }
 
-include_once "view/website/index.php";
+load_view('index');
