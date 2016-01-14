@@ -20,4 +20,4 @@ foreach ($news as $key => $new) {
     $news[$key]['author'] = htmlspecialchars($new['author']);
 }
 
-load_view('index');
+load_view('index', 'website', $news);
