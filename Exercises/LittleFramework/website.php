@@ -1,5 +1,6 @@
 <?php
-include_once "model/website/db.php";
-if (!isset($_GET['section']) OR $_GET['section'] == 'index') {
-    include_once('controller/website/index.php');
+const ROOT = __DIR__;
+include_once ROOT.'config/db.php';
+if (!isset($_GET['section']) || $_GET['section'] == 'index') {
+    include_once ROOT.'controller/website/index.php';
 }
