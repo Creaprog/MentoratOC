@@ -29,7 +29,7 @@ foreach ($news as $new) {
 }
 ?>
 
-<form action="index" method="post">
+<form action="" method="post">
     <p>
         <label for="title">Title :</label>
         <input type="text" name="title" id="title"/>
