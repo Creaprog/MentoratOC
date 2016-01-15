@@ -28,6 +28,7 @@ foreach ($news as $new) {
     <?php
 }
 ?>
+
 <form action="index" method="post">
     <p>
         <label for="title">Title :</label>
