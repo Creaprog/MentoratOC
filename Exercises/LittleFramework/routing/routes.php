@@ -1,6 +1,6 @@
 <?php
 function getRoutes()
 {
-    $routes = ['' => 'index', 'index' => 'index'];
+    $routes = ['' => 'index', 'new' => 'new'];
     return $routes;
 }

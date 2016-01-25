@@ -1,2 +1,2 @@
 RewriteEngine on
-RewriteRule ^(.*)$ website.php?url=$1 [QSA,L]
+RewriteRule ^([a-z]*)/?([a-z0-9]+)?$ website.php?module=$1&action=$2 [QSA,L]
