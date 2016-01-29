@@ -135,6 +135,7 @@ nav a:hover {
 footer {
     margin-top: 30px;
     border: 1px solid black;
+    text-align: center;
 }
 
 #news {
@@ -180,7 +181,7 @@ footer {
 }
 
 #activities tr:hover {
-    background-color: red;
+    background-color: #c3c3c3;
 }
 
 #contact {
@@ -198,8 +199,10 @@ footer {
     }
 
     nav {
-        width: auto;
-        text-align: left;
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        position: static;
     }
 
     nav li {
