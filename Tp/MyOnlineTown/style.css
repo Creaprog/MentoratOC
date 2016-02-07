@@ -54,7 +54,6 @@ nav li {
     display: inline-block;
     margin-right: 25px;
 
-
 }
 
 nav a {
@@ -186,6 +185,10 @@ footer {
 
 #contact {
     margin-top: 30px;
+    text-align: center;
+}
+
+#login {
     text-align: center;
 }
 
