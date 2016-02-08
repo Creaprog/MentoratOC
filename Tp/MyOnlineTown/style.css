@@ -169,22 +169,26 @@ footer {
     margin-bottom: 50px;
 }
 
-#activities {
+.activities {
     margin-top: 30px;
     border-collapse: collapse;
     width: 100%;
 }
 
-#activities td {
+.activities td {
     text-align: center;
 }
 
-#activities tr:hover {
+.activities tr:hover {
     background-color: #c3c3c3;
 }
 
-#contact {
+.contact {
     margin-top: 30px;
+    text-align: center;
+}
+
+.buttons {
     text-align: center;
 }
 
@@ -300,24 +304,24 @@ footer {
         text-align: center;
     }
 
-    #activities th {
+    .activities th {
         display: none;
     }
 
-    #activities td {
+    .activities td {
         display: block;
     }
 
-    #activities td:before {
+    .activities td:before {
         content: attr(data-thead) " ";
         font-weight: bold;
     }
 
-    #activities tr:hover {
+    .activities tr:hover {
         background-color: transparent;
     }
 
-    #activities td {
+    .activities td {
         padding-bottom: 20px;
     }
 

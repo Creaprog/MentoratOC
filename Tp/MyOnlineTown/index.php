@@ -15,29 +15,22 @@
 </head>
 <body>
 <div id="block_body">
-    <nav>
-        <ul>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="news.html">Actualités</a></li>
-            <li><a href="infos.html">Plus d'infos</a></li>
-            <li><a href="activities.html">Activités du mois</a></li>
-            <li>Recherche</li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
+    <?php include('header.php'); ?>
 
-    <header>
-        <img id="logo" src="pictures/town.png" alt="logo_town">
+    <?php
+    $bdd = new PDO('mysql:host=localhost;dbname=myonlinetown;charset=utf8', 'root', '');
 
-        <h1>Panda - Ville</h1>
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        <h2>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..</h2>
-    </header>
+    $req = $bdd->prepare('SELECT id, title, content, image FROM news ORDER BY ID DESC LIMIT 0,1');
+    $req->execute();
 
+    $result = $req->fetch();
+    ?>
     <div id="last_new">
-        <a href="#"><img class="last_new" src="pictures/last_new.jpg" alt="last_new"></a>
+        <a href="<?php echo $result['id']; ?>"><img class="last_new" src="<?php echo $result['image']; ?>" alt="last_new"></a>
 
-        <h1 id="last_new_text">Quisque tristique posuere massa eget</h1>
+        <h1 id="last_new_text"><?php echo $result['title']; ?></h1>
     </div>
 
     <section id="home">

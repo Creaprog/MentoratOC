@@ -17,22 +17,32 @@
 <div id="block_body">
     <?php include('header.php'); ?>
 
-    <section>
-        <form method="post" action="request.php" id="login">
-            <p>
-                <label for="pseudo">Pseudo :</label>
-                <input type="text" name="pseudo" id="pseudo"/>
+    <section id="news">
+        <?php
+        $bdd = new PDO('mysql:host=localhost;dbname=myonlinetown;charset=utf8', 'root', '');
 
-                <br/>
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                <label for="password">Password :</label>
-                <input type="password" name="password" id="password"/>
+        $req = $bdd->prepare('SELECT id, title, content, image FROM news');
+        $req->execute();
 
-                <br/>
+        $result = $req->fetchAll();
 
-                <input type="submit" value="Login" />
-            </p>
-        </form>
+
+
+        foreach ($result as $news) {
+        ?>
+
+        <article>
+            <img src="<?php echo $news['image']; ?>" alt="news<?php echo $news['id']; ?>">
+
+            <h1><?php echo $news['title']; ?></h1>
+
+            <p><?php echo $news['content']; ?></p>
+        </article>
+            <?php
+        }
+        ?>
     </section>
 
     <footer>

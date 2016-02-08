@@ -15,27 +15,10 @@
 </head>
 <body>
 <div id="block_body">
-    <nav>
-        <ul>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="news.html">Actualités</a></li>
-            <li><a href="infos.html">Plus d'infos</a></li>
-            <li><a href="activities.html">Activités du mois</a></li>
-            <li>Recherche</li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
-
-    <header>
-        <img src="pictures/town.png" alt="logo_town">
-
-        <h1>Panda - Ville</h1>
-
-        <h2>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..</h2>
-    </header>
+    <?php include('header.php'); ?>
 
     <section>
-        <form method="post" action="" id="contact">
+        <form method="post" action="" class="contact">
             <p>
                 <label for="title">Titre du message :</label>
                 <input type="text" name="title" id="title"/>
