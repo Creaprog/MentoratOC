@@ -23,6 +23,7 @@
         <p>
             <button id="addNew">Ajouter une new</button>
             <button id="addInfo">Ajouter une information</button>
+            <button id="addAct">Ajouter une activitée</button>
         </p>
 
         <div id="dataLog">
