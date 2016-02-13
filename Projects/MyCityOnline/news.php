@@ -15,7 +15,7 @@ $news = get_all_news();
     <body class="ie7">
     <![endif]-->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
-    <title>Panda - Ville</title>
+    <title>My City Online</title>
 </head>
 <body>
 <div id="block_body">
