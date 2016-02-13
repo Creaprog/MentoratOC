@@ -15,7 +15,7 @@ function get_news($offset, $limit)
     $req->bindParam(':limit', $limit, PDO::PARAM_INT);
     $req->execute();
 
-    $news = $req->fetchAll();
+    $news = $req->fetch();
 
     return $news;
 
