@@ -26,5 +26,15 @@ if (isset($_POST['title'], $_POST['image'], $_POST['content'], $_POST['type']) &
             }
             echo $result;
             break;
+        case "addAct":
+            require_once '../functions/add_activitie.php';
+            try {
+                add_activitie($title, $image, $content);
+                $result = 'requestOk';
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
     }
 }
