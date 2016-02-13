@@ -8,16 +8,41 @@ $(function () {
         $('.contact').remove();
     }
 
+    function show_all() {
+        $('#addInfo').show();
+        $('#addAct').show();
+        $('#addNew').show();
+    }
+
+    function removeLog() {
+        $('#dataLog').empty();
+    }
+
     $('#addNew').click(function () {
+        $(this).hide();
+        $('#addInfo').hide();
+        $('#addAct').hide();
+        removeLog();
         createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addNew');
+        $('.contact').hide().fadeIn("slow");
     });
 
     $('#addInfo').click(function () {
+        $(this).hide();
+        $('#addAct').hide();
+        $('#addNew').hide();
+        removeLog();
         createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addInfo');
+        $('.contact').hide().fadeIn("slow");
     });
 
     $('#addAct').click(function () {
+        $(this).hide();
+        $('#addNew').hide();
+        $('#addInfo').hide();
+        removeLog();
         createElement('Titre', 'Date', 'date', 'Image', 'Titre', 'text', 'Contenu', 'Description', 'addAct');
+        $('.contact').hide().fadeIn("slow");
     });
 
     $(document).on('click', '#submit', function () {
@@ -45,6 +70,7 @@ $(function () {
                             $('#dataLog').html('L\'actualité a bien été ajouté !');
                             break;
                     }
+                    show_all();
                 } else {
                     $('#dataLog').html(data);
                 }
