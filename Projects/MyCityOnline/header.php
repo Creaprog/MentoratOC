@@ -1,6 +1,6 @@
 <nav>
     <ul>
-        <li><img src="images/town.png" alt="logo_town" height="25px" width="25px"><a href="index.php"> Accueil</a>
+        <li><img src="http://img11.hostingpics.net/pics/934102town.png" alt="logo_town" height="25px" width="25px"><a href="index.php"> Accueil</a>
         </li>
         <li><a href="news.php">Actualités</a></li>
         <li><a href="infos.php">Plus d'infos</a></li>
@@ -11,7 +11,7 @@
 </nav>
 
 <header>
-    <img src="images/town.png" alt="logo_town">
+    <img src="http://img11.hostingpics.net/pics/934102town.png" alt="logo_town">
 
     <h1>My City Online</h1>
 
