@@ -1,7 +1,10 @@
 $(function () {
-
     function createElement(element1, element1Text, element1Type, element2, element2Text, element2Type, element3, element3Text, type) {
         $('<p class="contact"><label for=' + element1 + '>' + element1Text + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + '><br /><label for=' + element2 + '>' + element2Text + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + '><br /><label for=' + element3 + '>' + element3Text + ' :</label><textarea name=' + element3 + ' id=' + element3 + '></textarea><br /><input type="hidden" id="Type" value=' + type + '><button id="submit">Ajouter</button></p>').insertAfter('p');
+    }
+
+    function createReturn() {
+        $('<button id="return">Retour</button>').insertAfter('#addAct');
     }
 
     function removeElement() {
@@ -9,9 +12,9 @@ $(function () {
     }
 
     function show_all() {
-        $('#addInfo').show();
-        $('#addAct').show();
-        $('#addNew').show();
+        $('#addInfo').fadeIn('slow');
+        $('#addAct').fadeIn('slow');
+        $('#addNew').fadeIn('slow');
     }
 
     function removeLog() {
@@ -25,6 +28,7 @@ $(function () {
         removeLog();
         createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addNew');
         $('.contact').hide().fadeIn("slow");
+        createReturn();
     });
 
     $('#addInfo').click(function () {
@@ -34,6 +38,7 @@ $(function () {
         removeLog();
         createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addInfo');
         $('.contact').hide().fadeIn("slow");
+        createReturn();
     });
 
     $('#addAct').click(function () {
@@ -43,6 +48,7 @@ $(function () {
         removeLog();
         createElement('Titre', 'Date', 'date', 'Image', 'Titre', 'text', 'Contenu', 'Description', 'addAct');
         $('.contact').hide().fadeIn("slow");
+        createReturn();
     });
 
     $(document).on('click', '#submit', function () {
@@ -82,5 +88,10 @@ $(function () {
 
     });
 
+    $(document).on('click', '#return', function () {
+        $('.contact').remove();
+        show_all();
+        $('#return').remove();
+    });
 
 });
