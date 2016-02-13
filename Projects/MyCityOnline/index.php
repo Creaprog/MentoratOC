@@ -1,11 +1,6 @@
 <?php
 require_once 'functions/get_news.php';
 $news = get_news(0, 1);
-foreach ($news as $key => $new) {
-    $news[$key]['title'] = htmlspecialchars($new['title']);
-    $news[$key]['content'] = htmlspecialchars($new['content']);
-    $news[$key]['image'] = htmlspecialchars($new['image']);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +22,10 @@ foreach ($news as $key => $new) {
     <?php include('header.php'); ?>
 
     <div id="last_new">
-        <a href="<?php echo $new['id']; ?>"><img class="last_new" src="<?php echo $new['image']; ?>" alt="last_new"></a>
+        <a href="<?php echo $news['id']; ?>"><img class="last_new" src="<?php echo $news['image']; ?>"
+                                                  alt="last_new"></a>
 
-        <h1 id="last_new_text"><?php echo $new['title']; ?></h1>
+        <h1 id="last_new_text"><?php echo $news['title']; ?></h1>
     </div>
 
     <section id="home">
