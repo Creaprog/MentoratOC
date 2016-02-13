@@ -40,7 +40,7 @@ $informations = get_all_infos();
     </section>
 
     <footer>
-        <a href="#">Administration</a>
+        <a href="login.php">Administration</a>
     </footer>
 
 </div>

@@ -48,7 +48,7 @@ if (isset($_POST['pseudo'], $_POST['password']) && $_POST['pseudo'] && $_POST['p
     </section>
 
     <footer>
-        <a href="#">Administration</a>
+        <a href="login.php">Administration</a>
     </footer>
 
 </div>

@@ -39,7 +39,7 @@ $news = get_all_news();
     </section>
 
     <footer>
-        <a href="#">Administration</a>
+        <a href="login.php">Administration</a>
     </footer>
 
 </div>

@@ -54,7 +54,7 @@ $news = get_news(0, 1);
     </section>
 
     <footer>
-        <a href="#">Administration</a>
+        <a href="login.php">Administration</a>
     </footer>
 
 </div>
