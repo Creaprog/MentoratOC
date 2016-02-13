@@ -5,7 +5,7 @@
         <li><a href="news.php">Actualités</a></li>
         <li><a href="infos.php">Plus d'infos</a></li>
         <li><a href="activities.php">Activités du mois</a></li>
-        <li>Recherche</li>
+        <li><input type="text" autocomplete="off" id="research"></li>
         <li><a href="contact.php">Contact</a></li>
     </ul>
 </nav>
