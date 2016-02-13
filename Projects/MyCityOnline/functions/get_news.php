@@ -1,4 +1,5 @@
 <?php
+require_once 'config/db.php';
 function get_news($offset, $limit)
 {
 
