@@ -8,7 +8,7 @@ function get_all_activities(){
     $req = $bdd->prepare('SELECT id, instant, title, description FROM activities ORDER BY ID');
     $req->execute();
 
-    $activities = $req->fetchAll();
+    $informations = $req->fetchAll();
 
-    return $activities;
+    return $informations;
 }

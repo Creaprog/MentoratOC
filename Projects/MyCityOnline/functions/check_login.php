@@ -18,5 +18,6 @@ function check_login($pseudo, $password)
         return false;
     } else {
         return true;
+
     }
 }
