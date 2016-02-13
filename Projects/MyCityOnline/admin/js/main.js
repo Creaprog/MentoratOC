@@ -1,7 +1,7 @@
 $(function () {
 
-    function createElement(element1, element1Type, element2, element2Type, element3, type) {
-        $('<p class="contact"><label for=' + element1 + '>' + element1 + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + '><br /><label for=' + element2 + '>' + element2 + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + '><br /><label for=' + element3 + '>' + element3 + ' :</label><textarea name=' + element3 + ' id=' + element3 + '></textarea><br /><input type="hidden" id="Type" value=' + type + '><button id="submit">Ajouter</button></p>').insertAfter('p');
+    function createElement(element1, element1Text, element1Type, element2, element2Text, element2Type, element3, element3Text, type) {
+        $('<p class="contact"><label for=' + element1 + '>' + element1Text + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + '><br /><label for=' + element2 + '>' + element2Text + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + '><br /><label for=' + element3 + '>' + element3Text + ' :</label><textarea name=' + element3 + ' id=' + element3 + '></textarea><br /><input type="hidden" id="Type" value=' + type + '><button id="submit">Ajouter</button></p>').insertAfter('p');
     }
 
     function removeElement() {
@@ -9,11 +9,15 @@ $(function () {
     }
 
     $('#addNew').click(function () {
-        createElement('Titre', 'text', 'Image', 'text', 'Contenu', 'addNew');
+        createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addNew');
     });
 
     $('#addInfo').click(function () {
-        createElement('Titre', 'text', 'Image', 'text', 'Contenu', 'addInfo');
+        createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addInfo');
+    });
+
+    $('#addAct').click(function () {
+        createElement('Titre', 'Date', 'date', 'Image', 'Titre', 'text', 'Contenu', 'Description', 'addAct');
     });
 
     $(document).on('click', '#submit', function () {
@@ -36,6 +40,9 @@ $(function () {
                             break;
                         case 'addInfo':
                             $('#dataLog').html('L\'information a bien été ajouté !');
+                            break;
+                        case 'addAct':
+                            $('#dataLog').html('L\'actualité a bien été ajouté !');
                             break;
                     }
                 } else {
