@@ -72,9 +72,9 @@ $(function () {
                     case 'news':
                         for (var news in elementParsed) {
                             statut = elementParsed[news]['publish'];
-                            if(statut != 1){
+                            if (statut != 1) {
                                 statut = 'Non publié';
-                            }else{
+                            } else {
                                 statut = 'Publié';
                             }
                             $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td>' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
@@ -83,9 +83,9 @@ $(function () {
                     case 'informations':
                         for (var informations in elementParsed) {
                             statut = elementParsed[informations]['publish'];
-                            if(statut != 1){
+                            if (statut != 1) {
                                 statut = 'Non publié';
-                            }else{
+                            } else {
                                 statut = 'Publié';
                             }
                             $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td>' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
@@ -94,9 +94,9 @@ $(function () {
                     case 'activities':
                         for (var activities in elementParsed) {
                             statut = elementParsed[activities]['publish'];
-                            if(statut != 1){
+                            if (statut != 1) {
                                 statut = 'Non publié';
-                            }else{
+                            } else {
                                 statut = 'Publié';
                             }
                             var instant = elementParsed[activities]['instant'].replace(new RegExp('-', 'g'), ',');
@@ -105,7 +105,7 @@ $(function () {
                         break;
                     case 'pub':
                         for (var pub in elementParsed) {
-                            for(var i = 0; i < elementParsed[pub].length; i++){
+                            for (var i = 0; i < elementParsed[pub].length; i++) {
                                 $('tbody').append('<tr><td data-thead="Type :">' + elementParsed[pub][i].Type + '</td><td data-thead="Titre :">' + elementParsed[pub][i].title + '</td><td data-thead="Action :"><button class="pubElem" data-id=' + elementParsed[pub][i].id + ' data-type=' + elementParsed[pub][i].Type + '>Publier</button></td><td></td></tr>');
                             }
                         }
@@ -291,7 +291,7 @@ $(function () {
         loadElement('Act', id);
     });
 
-    $(document).on('click', '.pubElem', function(){
+    $(document).on('click', '.pubElem', function () {
         var type = $(this).attr('data-type');
         var id = $(this).attr('data-id');
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'functions/get_all_news.php';
 $news = get_all_news();
 ?>
@@ -39,7 +40,7 @@ $news = get_all_news();
     </section>
 
     <footer>
-        <a href="login.php">Administration</a>
+        <?php include('footer.php'); ?>
     </footer>
 
 </div>

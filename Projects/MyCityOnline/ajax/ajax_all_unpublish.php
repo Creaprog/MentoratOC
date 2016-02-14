@@ -11,7 +11,7 @@ function ajax_all_unpublish()
 
     $news = $req->fetchAll();
 
-    if($news){
+    if ($news) {
         array_push($unpublish, $news);
     }
 
@@ -20,7 +20,7 @@ function ajax_all_unpublish()
 
     $infos = $req->fetchAll();
 
-    if($infos){
+    if ($infos) {
         array_push($unpublish, $infos);
     }
 
@@ -29,7 +29,7 @@ function ajax_all_unpublish()
 
     $activities = $req->fetchAll();
 
-    if($activities){
+    if ($activities) {
         array_push($unpublish, $activities);
     }
     return $unpublish;

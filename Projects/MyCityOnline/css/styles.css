@@ -196,9 +196,10 @@ footer {
     text-align: center;
 }
 
-#research{
+#research {
     border-radius: 5px 5px 5px 5px;
 }
+
 @media all and (max-width: 925px) {
     #block_body {
         width: auto;

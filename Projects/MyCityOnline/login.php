@@ -1,12 +1,13 @@
 <?php
+session_start();
 if (isset($_POST['pseudo'], $_POST['password']) && $_POST['pseudo'] && $_POST['password']) {
     $pseudo = htmlspecialchars($_POST['pseudo']);
     $password = sha1($_POST['password']);
     require_once 'functions/check_login.php';
     if (check_login($pseudo, $password)) {
-        echo 'Log On';
-    } else {
-        echo 'Log Error';
+        $_SESSION['pseudo'] = $pseudo;
+        $_SESSION['password'] = $password;
+        header('Location: admin.php');
     }
 }
 ?>
@@ -48,7 +49,7 @@ if (isset($_POST['pseudo'], $_POST['password']) && $_POST['pseudo'] && $_POST['p
     </section>
 
     <footer>
-        <a href="login.php">Administration</a>
+        <?php include('footer.php'); ?>
     </footer>
 
 </div>

@@ -1,6 +1,7 @@
 <?php
 require_once 'config/db.php';
-function get_all_activities(){
+function get_all_activities()
+{
     global $bdd;
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,7 +69,7 @@
     </section>
 
     <footer>
-        <a href="login.php">Administration</a>
+        <?php include('footer.php'); ?>
     </footer>
 
 </div>

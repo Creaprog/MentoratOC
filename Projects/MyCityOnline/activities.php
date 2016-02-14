@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'functions/get_all_activities.php';
 $activities = get_all_activities();
 ?>
@@ -51,7 +52,7 @@ $activities = get_all_activities();
     </section>
 
     <footer>
-        <a href="login.php">Administration</a>
+        <?php include('footer.php'); ?>
     </footer>
 
 </div>

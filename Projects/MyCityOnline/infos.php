@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'functions/get_all_infos.php';
 $informations = get_all_infos();
 ?>
@@ -40,7 +41,7 @@ $informations = get_all_infos();
     </section>
 
     <footer>
-        <a href="login.php">Administration</a>
+        <?php include('footer.php'); ?>
     </footer>
 
 </div>
