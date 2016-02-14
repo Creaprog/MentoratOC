@@ -18,6 +18,7 @@ $(function () {
         $('#getNews').fadeIn('slow');
         $('#getInfos').fadeIn('slow');
         $('#getAct').fadeIn('slow');
+        $('#return').hide();
     }
 
     function hide_all() {
@@ -78,7 +79,6 @@ $(function () {
                         }
                         break;
                 }
-                console.log(elementParsed);
 
             },
             error: function () {
@@ -112,7 +112,6 @@ $(function () {
                         $('#Titre').val(elementParsed['title']);
                         $('#Image').val(elementParsed['image']);
                         $('#Contenu').val(elementParsed['content']);
-                        console.log(elementParsed);
                         break;
                     case 'information':
                         $('#Titre').val(elementParsed['title']);
@@ -180,11 +179,12 @@ $(function () {
         var Image = $('#Image').val();
         var Contenu = $('#Contenu').val();
         var Type = $('#Type').val();
+        var Id = $('#Id').val();
 
         $.ajax({
             type: 'POST',
             url: 'ajax/request.php',
-            data: {title: Titre, image: Image, content: Contenu, type: Type},
+            data: {title: Titre, image: Image, content: Contenu, type: Type, id: Id},
             timeout: 3000,
             success: function (data) {
                 if (data === 'requestOk') {
@@ -198,6 +198,15 @@ $(function () {
                             break;
                         case 'addAct':
                             $('#dataLog').html('L\'actualité a bien été ajouté !');
+                            break;
+                        case 'modNew':
+                            $('#dataLog').html('La new a bien été modifée !');
+                            break;
+                        case 'modInfo':
+                            $('#dataLog').html('L\'information a bien été modifée !');
+                            break;
+                        case 'modAct':
+                            $('#dataLog').html('L\'actualitée a bien été modifée !');
                             break;
                     }
                     show_all();

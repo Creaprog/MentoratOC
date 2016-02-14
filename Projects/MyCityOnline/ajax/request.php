@@ -36,6 +36,48 @@ if (isset($_POST['title'], $_POST['image'], $_POST['content'], $_POST['type']) &
             }
             echo $result;
             break;
+        case "modNew":
+            if (isset($_POST['id']) && $_POST['id']) {
+                $id = htmlspecialchars($_POST['id']);
+                require_once 'ajax_update_new.php';
+                try {
+                    ajax_update_new($id, $title, $image, $content);
+                    $result = 'requestOk';
+                } catch (Exception $e) {
+                    $result = $e;
+                }
+                echo $result;
+                break;
+            }
+            break;
+        case "modInfo":
+            if (isset($_POST['id']) && $_POST['id']) {
+                $id = htmlspecialchars($_POST['id']);
+                require_once 'ajax_update_info.php';
+                try {
+                    ajax_update_info($id, $title, $image, $content);
+                    $result = 'requestOk';
+                } catch (Exception $e) {
+                    $result = $e;
+                }
+                echo $result;
+                break;
+            }
+            break;
+        case "modAct":
+            if (isset($_POST['id']) && $_POST['id']) {
+                $id = htmlspecialchars($_POST['id']);
+                require_once 'ajax_update_activitie.php';
+                try {
+                    ajax_update_activitie($id, $title, $image, $content);
+                    $result = 'requestOk';
+                } catch (Exception $e) {
+                    $result = $e;
+                }
+                echo $result;
+                break;
+            }
+            break;
     }
 } elseif (isset($_POST['getElement']) && $_POST['getElement']) {
     $element = htmlspecialchars($_POST['getElement']);
