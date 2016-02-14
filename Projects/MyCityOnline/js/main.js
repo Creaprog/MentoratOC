@@ -157,18 +157,21 @@ $(function () {
 
     $('#getNews').click(function () {
         hide_all();
+        removeLog();
         loadRecept('News');
         createReturn();
     });
 
     $('#getInfos').click(function () {
         hide_all();
+        removeLog();
         loadRecept('Informations');
         createReturn();
     });
 
     $('#getAct').click(function () {
         hide_all();
+        removeLog();
         loadRecept('Activities');
         createReturn();
     });
