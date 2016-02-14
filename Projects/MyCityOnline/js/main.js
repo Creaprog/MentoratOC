@@ -15,20 +15,80 @@ $(function () {
         $('#addInfo').fadeIn('slow');
         $('#addAct').fadeIn('slow');
         $('#addNew').fadeIn('slow');
+        $('#getNews').fadeIn('slow');
+        $('#getInfos').fadeIn('slow');
+        $('#getAct').fadeIn('slow');
+    }
+
+    function hide_all(){
+        $('#addInfo').hide();
+        $('#addAct').hide();
+        $('#addNew').hide();
+        $('#getNews').hide();
+        $('#getInfos').hide();
+        $('#getAct').hide();
     }
 
     function removeLog() {
         $('#dataLog').empty();
     }
 
-    function loadRecept($td, $td){
-        
+    function remove_Recept(){
+        $('thead').empty();
+        $('tbody').empty();
+    }
+
+    function loadRecept($element){
+        switch ($element){
+            case 'News':
+                $element = 'news';
+                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th></tr>');
+            break;
+            case 'Informations':
+                $element = 'informations';
+                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th></tr>');
+            break;
+            case 'Activities':
+                $element = 'activities';
+                $('thead').append('<tr><th>Date</th><th>Titre</th><th>Description</th></tr>');
+            break;
+        }
+        $.ajax({
+            type: 'POST',
+            url: 'ajax/request.php',
+            data: {getElement: $element},
+            timeout: 3000,
+            success: function (data) {
+                var elementParsed = jQuery.parseJSON(data);
+                switch ($element){
+                    case 'news':
+                        for(var news in elementParsed){
+                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td></tr>');
+                        }
+                        break;
+                    case 'informations':
+                        for(var informations in elementParsed){
+                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td></tr>');
+                        }
+                        break;
+                    case 'activities':
+                        for(var activities in elementParsed){
+                            var instant = elementParsed[activities]['instant'].replace(new RegExp('-', 'g'), ',');
+                            $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td></tr>');
+                        }
+                        break;
+                }
+                console.log(elementParsed);
+
+            },
+            error: function () {
+                alert('La requete n\'a pas abouti');
+            }
+        });
     }
 
     $('#addNew').click(function () {
-        $(this).hide();
-        $('#addInfo').hide();
-        $('#addAct').hide();
+        hide_all();
         removeLog();
         createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addNew');
         $('.contact').hide().fadeIn("slow");
@@ -36,9 +96,7 @@ $(function () {
     });
 
     $('#addInfo').click(function () {
-        $(this).hide();
-        $('#addAct').hide();
-        $('#addNew').hide();
+        hide_all();
         removeLog();
         createElement('Titre', 'Titre', 'text', 'Image', 'Image', 'text', 'Contenu', 'Contenu', 'addInfo');
         $('.contact').hide().fadeIn("slow");
@@ -46,17 +104,29 @@ $(function () {
     });
 
     $('#addAct').click(function () {
-        $(this).hide();
-        $('#addNew').hide();
-        $('#addInfo').hide();
+        hide_all();
         removeLog();
         createElement('Titre', 'Date', 'date', 'Image', 'Titre', 'text', 'Contenu', 'Description', 'addAct');
         $('.contact').hide().fadeIn("slow");
         createReturn();
     });
 
-    $('#modNew').click(function(){
+    $('#getNews').click(function(){
+        hide_all();
+        loadRecept('News');
+        createReturn();
+    });
 
+    $('#getInfos').click(function(){
+        hide_all();
+        loadRecept('Informations');
+        createReturn();
+    });
+
+    $('#getAct').click(function(){
+        hide_all();
+        loadRecept('Activities');
+        createReturn();
     });
 
 
@@ -100,6 +170,7 @@ $(function () {
 
     $(document).on('click', '#return', function () {
         $('.contact').remove();
+        remove_Recept();
         show_all();
         $('#return').remove();
     });

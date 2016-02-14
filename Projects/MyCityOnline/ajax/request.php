@@ -37,4 +37,37 @@ if (isset($_POST['title'], $_POST['image'], $_POST['content'], $_POST['type']) &
             echo $result;
             break;
     }
+} elseif (isset($_POST['getElement']) && $_POST['getElement']) {
+    $element = htmlspecialchars($_POST['getElement']);
+
+    switch ($element) {
+        case "news":
+            require_once 'ajax_all_news.php';
+            try {
+                $result = json_encode(ajax_all_news());
+
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
+        case "informations":
+            require_once 'ajax_all_infos.php';
+            try {
+                $result = json_encode(ajax_all_infos());
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
+        case "activities":
+            require_once 'ajax_all_activities.php';
+            try {
+                $result = json_encode(ajax_all_activities());
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
+    }
 }

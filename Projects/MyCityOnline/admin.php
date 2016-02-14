@@ -24,7 +24,9 @@
             <button id="addNew">Ajouter une new</button>
             <button id="addInfo">Ajouter une information</button>
             <button id="addAct">Ajouter une activitée</button>
-            <button id="modNew">Modifier une new</button>
+            <button id="getNews">Modifier une new</button>
+            <button id="getInfos">Modifier une information</button>
+            <button id="getAct">Modifier une activitée</button>
         </p>
 
         <div id="dataLog">
@@ -33,19 +35,11 @@
 
         <table class="activities" id="recept">
             <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
+
             </thead>
 
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+
             </tbody>
         </table>
     </section>
