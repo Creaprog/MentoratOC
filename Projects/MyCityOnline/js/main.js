@@ -21,6 +21,10 @@ $(function () {
         $('#dataLog').empty();
     }
 
+    function loadRecept($td, $td){
+        
+    }
+
     $('#addNew').click(function () {
         $(this).hide();
         $('#addInfo').hide();
@@ -50,6 +54,12 @@ $(function () {
         $('.contact').hide().fadeIn("slow");
         createReturn();
     });
+
+    $('#modNew').click(function(){
+
+    });
+
+
 
     $(document).on('click', '#submit', function () {
         var Titre = $('#Titre').val();

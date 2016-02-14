@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width"/>
-    <link rel="stylesheet" href="../css/styles.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
     <!--[if lte IE 8]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -24,15 +24,34 @@
             <button id="addNew">Ajouter une new</button>
             <button id="addInfo">Ajouter une information</button>
             <button id="addAct">Ajouter une activitée</button>
+            <button id="modNew">Modifier une new</button>
         </p>
 
         <div id="dataLog">
 
         </div>
+
+        <table class="activities" id="recept">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 
     <footer>
-        <a href="../login.php">Administration</a>
+        <a href="login.php">Administration</a>
     </footer>
 
 </div>

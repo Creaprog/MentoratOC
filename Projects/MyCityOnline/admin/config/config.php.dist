@@ -1,6 +1,0 @@
-<?php
-// Default configuration to mysql connexion
-const DBHOST = '';
-const DBUSER = '';
-const DBPASS = '';
-const DBNAME = '';
