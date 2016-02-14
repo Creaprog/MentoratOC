@@ -27,6 +27,7 @@
             <button id="getNews">Modifier une new</button>
             <button id="getInfos">Modifier une information</button>
             <button id="getAct">Modifier une activitée</button>
+            <button id="getPub">Publier des article soumis</button>
         </p>
 
         <div id="dataLog">

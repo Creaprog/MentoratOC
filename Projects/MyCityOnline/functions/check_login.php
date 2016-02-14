@@ -7,7 +7,7 @@ function check_login($pseudo, $password)
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-    $req = $bdd->prepare('SELECT pseudo, password FROM users WHERE pseudo = :pseudo AND password = :password');
+    $req = $bdd->prepare('SELECT * FROM users WHERE pseudo = :pseudo AND password = :password');
     $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
     $req->bindParam(':password', $password, PDO::PARAM_STR);
     $req->execute();

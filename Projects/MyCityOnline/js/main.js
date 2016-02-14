@@ -18,6 +18,7 @@ $(function () {
         $('#getNews').fadeIn('slow');
         $('#getInfos').fadeIn('slow');
         $('#getAct').fadeIn('slow');
+        $('#getPub').fadeIn('slow');
         $('#return').hide();
     }
 
@@ -28,6 +29,7 @@ $(function () {
         $('#getNews').hide();
         $('#getInfos').hide();
         $('#getAct').hide();
+        $('#getPub').hide();
     }
 
     function removeLog() {
@@ -43,15 +45,19 @@ $(function () {
         switch ($element) {
             case 'News':
                 $element = 'news';
-                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th></tr>');
+                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th><th>Statut</th></tr>');
                 break;
             case 'Informations':
                 $element = 'informations';
-                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th></tr>');
+                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th><th>Statut</th></tr>');
                 break;
             case 'Activities':
                 $element = 'activities';
-                $('thead').append('<tr><th>Date</th><th>Titre</th><th>Description</th></tr>');
+                $('thead').append('<tr><th>Date</th><th>Titre</th><th>Description</th><th>Statut</th></tr>');
+                break;
+            case 'pub':
+                $element = 'pub';
+                $('thead').append('<tr><th>Type</th><th>Titre</th><th>Action</th></tr>');
                 break;
         }
         $.ajax({
@@ -61,21 +67,47 @@ $(function () {
             timeout: 3000,
             success: function (data) {
                 var elementParsed = jQuery.parseJSON(data);
+                var statut;
                 switch ($element) {
                     case 'news':
                         for (var news in elementParsed) {
-                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
+                            statut = elementParsed[news]['publish'];
+                            if(statut != 1){
+                                statut = 'Non publié';
+                            }else{
+                                statut = 'Publié';
+                            }
+                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td>' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
                         }
                         break;
                     case 'informations':
                         for (var informations in elementParsed) {
-                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
+                            statut = elementParsed[informations]['publish'];
+                            if(statut != 1){
+                                statut = 'Non publié';
+                            }else{
+                                statut = 'Publié';
+                            }
+                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td>' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
                         }
                         break;
                     case 'activities':
                         for (var activities in elementParsed) {
+                            statut = elementParsed[activities]['publish'];
+                            if(statut != 1){
+                                statut = 'Non publié';
+                            }else{
+                                statut = 'Publié';
+                            }
                             var instant = elementParsed[activities]['instant'].replace(new RegExp('-', 'g'), ',');
-                            $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button></td></tr>');
+                            $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td><td>' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button></td></tr>');
+                        }
+                        break;
+                    case 'pub':
+                        for (var pub in elementParsed) {
+                            for(var i = 0; i < elementParsed[pub].length; i++){
+                                $('tbody').append('<tr><td data-thead="Type :">' + elementParsed[pub][i].Type + '</td><td data-thead="Titre :">' + elementParsed[pub][i].title + '</td><td data-thead="Action :"><button class="pubElem" data-id=' + elementParsed[pub][i].id + ' data-type=' + elementParsed[pub][i].Type + '>Publier</button></td><td></td></tr>');
+                            }
                         }
                         break;
                 }
@@ -176,6 +208,13 @@ $(function () {
         createReturn();
     });
 
+    $('#getPub').click(function () {
+        hide_all();
+        removeLog();
+        loadRecept('pub');
+        createReturn();
+    });
+
 
     $(document).on('click', '#submit', function () {
         var Titre = $('#Titre').val();
@@ -250,6 +289,31 @@ $(function () {
         remove_Recept();
         createElement('Titre', 'Date', 'date', 'Image', 'Titre', 'text', 'Contenu', 'Description', 'modAct', id);
         loadElement('Act', id);
+    });
+
+    $(document).on('click', '.pubElem', function(){
+        var type = $(this).attr('data-type');
+        var id = $(this).attr('data-id');
+
+        $.ajax({
+            type: 'POST',
+            url: 'ajax/request.php',
+            data: {type: type, id: id},
+            timeout: 3000,
+            success: function (data) {
+                if (data === 'requestOk') {
+                    $('#dataLog').html('L\'article à bien été publier !');
+                    $('.contact').remove();
+                    remove_Recept();
+                    show_all();
+                }
+            },
+            error: function () {
+                alert('La requete n\'a pas abouti');
+                console.log('off');
+            }
+        });
+
     });
 
 });

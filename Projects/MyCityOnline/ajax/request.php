@@ -111,6 +111,15 @@ if (isset($_POST['title'], $_POST['image'], $_POST['content'], $_POST['type']) &
             }
             echo $result;
             break;
+        case "pub":
+            require_once 'ajax_all_unpublish.php';
+            try {
+                $result = json_encode(ajax_all_unpublish());
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
     }
 } elseif (isset($_POST['modElement'], $_POST['idElement']) && $_POST['modElement'] && $_POST['idElement']) {
     $element = htmlspecialchars($_POST['modElement']);
@@ -145,4 +154,27 @@ if (isset($_POST['title'], $_POST['image'], $_POST['content'], $_POST['type']) &
             echo $result;
             break;
     }
+} elseif (isset($_POST['type'], $_POST['id']) && $_POST['type'] && $_POST['id']) {
+    $element = htmlspecialchars($_POST['type']);
+    $id = htmlspecialchars($_POST['id']);
+    switch ($element) {
+        case "information":
+            $element = 'informations';
+            break;
+        case "new":
+            $element = 'news';
+
+            break;
+        case "activitee":
+            $element = 'activities';
+            break;
+    }
+    require_once 'ajax_publish_elem.php';
+    try {
+        ajax_publish_elem($element, $id);
+        $result = 'requestOk';
+    } catch (Exception $e) {
+        $result = $e;
+    }
+    echo $result;
 }

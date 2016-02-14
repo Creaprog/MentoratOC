@@ -6,10 +6,10 @@ function get_all_news()
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('SELECT id, title, content, image FROM news ORDER BY ID');
+    $req = $bdd->prepare('SELECT * FROM news WHERE publish = 1 ORDER BY ID');
     $req->execute();
 
-    $news = $req->fetchAll();
 
+    $news = $req->fetchAll();
     return $news;
 }

@@ -5,7 +5,7 @@ function get_all_activities(){
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('SELECT id, instant, title, description FROM activities ORDER BY ID');
+    $req = $bdd->prepare('SELECT * FROM activities WHERE publish = 1 ORDER BY ID');
     $req->execute();
 
     $informations = $req->fetchAll();

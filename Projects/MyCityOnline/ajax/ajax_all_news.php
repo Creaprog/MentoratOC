@@ -6,7 +6,7 @@ function ajax_all_news()
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('SELECT id, title, content, image FROM news ORDER BY ID');
+    $req = $bdd->prepare('SELECT * FROM news ORDER BY ID');
     $req->execute();
 
     $news = $req->fetchAll();

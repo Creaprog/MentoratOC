@@ -6,7 +6,7 @@ function ajax_get_new($id)
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('SELECT id, title, content, image FROM news WHERE ID = :id');
+    $req = $bdd->prepare('SELECT * FROM news WHERE ID = :id');
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
 

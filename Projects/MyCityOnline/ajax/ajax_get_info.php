@@ -6,7 +6,7 @@ function ajax_get_info($id)
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('SELECT id, title, content, image FROM informations WHERE ID = :id');
+    $req = $bdd->prepare('SELECT * FROM informations WHERE ID = :id');
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
 

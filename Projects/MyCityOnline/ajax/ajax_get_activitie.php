@@ -6,7 +6,7 @@ function ajax_get_activitie($id)
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('SELECT id, instant, title, description FROM activities WHERE ID = :id');
+    $req = $bdd->prepare('SELECT * FROM activities WHERE ID = :id');
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
 
