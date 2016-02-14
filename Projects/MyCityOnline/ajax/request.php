@@ -70,4 +70,37 @@ if (isset($_POST['title'], $_POST['image'], $_POST['content'], $_POST['type']) &
             echo $result;
             break;
     }
+} elseif (isset($_POST['modElement'], $_POST['idElement']) && $_POST['modElement'] && $_POST['idElement']) {
+    $element = htmlspecialchars($_POST['modElement']);
+    $id = htmlspecialchars($_POST['idElement']);
+
+    switch ($element) {
+        case "new":
+            require_once 'ajax_get_new.php';
+            try {
+                $result = json_encode(ajax_get_new($id));
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
+        case "information":
+            require_once 'ajax_get_info.php';
+            try {
+                $result = json_encode(ajax_get_info($id));
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
+        case "activitie":
+            require_once 'ajax_get_activitie.php';
+            try {
+                $result = json_encode(ajax_get_activitie($id));
+            } catch (Exception $e) {
+                $result = $e;
+            }
+            echo $result;
+            break;
+    }
 }
