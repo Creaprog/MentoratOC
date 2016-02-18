@@ -1,6 +1,6 @@
 $(function () {
     function createElement(element1, element1Text, element1Type, element2, element2Text, element2Type, element3, element3Text, type, id) {
-        $('<p class="contact"><label for=' + element1 + '>' + element1Text + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + '><br /><label for=' + element2 + '>' + element2Text + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + '><br /><label for=' + element3 + '>' + element3Text + ' :</label><textarea name=' + element3 + ' id=' + element3 + '></textarea><br /><input type="hidden" id="Type" value=' + type + '><input type="hidden" id="Id" value=' + id + '><button id="submit">Enregistrer</button></p>').insertAfter('p');
+        $('<p class="contact"><label for=' + element1 + '>' + element1Text + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + '><br /><label for=' + element2 + '>' + element2Text + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + '><br /><label for=' + element3 + '>' + element3Text + ' :</label><textarea name=' + element3 + ' id=' + element3 + ' rows="10" cols="40"></textarea><br /><input type="hidden" id="Type" value=' + type + '><input type="hidden" id="Id" value=' + id + '><button id="submit">Enregistrer</button></p>').insertAfter('p');
     }
 
     function createReturn() {
@@ -90,9 +90,9 @@ $(function () {
                                 statut = 'Publié';
                             }
                             if (acces == false) {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[news]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
                             } else {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[news]['id'] + ' data-type="new">Supprimer</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[news]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[news]['id'] + ' data-type="new">Supprimer</button></td></tr>');
                             }
                         }
                         break;
@@ -105,9 +105,9 @@ $(function () {
                                 statut = 'Publié';
                             }
                             if (acces == false) {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[informations]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
                             } else {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[informations]['id'] + ' data-type="information">Supprimer</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[informations]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[informations]['id'] + ' data-type="information">Supprimer</button></td></tr>');
                             }
                         }
                         break;
@@ -121,9 +121,9 @@ $(function () {
                             }
                             var instant = elementParsed[activities]['instant'].replace(new RegExp('-', 'g'), ',');
                             if (acces == false) {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'].substr(0, 16) + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button></td></tr>');
                             } else {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[activities]['id'] + ' data-type="activitee">Supprimer</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'].substr(0, 16) + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[activities]['id'] + ' data-type="activitee">Supprimer</button></td></tr>');
                             }
                         }
                         break;

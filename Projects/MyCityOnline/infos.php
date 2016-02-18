@@ -1,7 +1,22 @@
 <?php
 session_start();
-require_once 'functions/get_all_infos.php';
-$informations = get_all_infos();
+$getInfo = false;
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    if (is_numeric($id)) {
+        $id = (int)$id;
+        if (is_int($id) && $id > 0) {
+            $getInfo = true;
+            require_once 'functions/get_info.php';
+            $informations = get_info($id);
+        }
+    } else {
+        header('Location: infos.php');
+    }
+} else {
+    require_once 'functions/get_all_infos.php';
+    $informations = get_all_infos();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +47,18 @@ $informations = get_all_infos();
 
                 <h1><?php echo $information['title']; ?></h1>
 
-                <p><?php echo $information['content']; ?></p>
+                <p><?php
+                    if (!$getInfo) {
+                        if (strlen($information['content']) >= 200) {
+                            $information['content'] = substr($information['content'], 0, 200);
+                            $space = strrpos($information['content'], ' ');
+                            $information['content'] = substr($information['content'], 0, $space) . ' ... <a href=infos.php?id=' . $information['id'] . ' class="link">lire la suite</a>';
+                        }
+                        echo $information['content'];
+                    } else {
+                        echo $information['content'];
+                    }
+                    ?></p>
             </article>
             <?php
         }

@@ -129,6 +129,19 @@ nav a:hover {
 #home img {
     border-radius: 5px;
     box-shadow: 3px 3px 3px #1c1a19;
+    margin-bottom: 5px;
+}
+
+.pageLink {
+    text-align: center;
+}
+
+.page {
+    text-decoration: none;
+}
+
+.page:hover {
+    text-decoration: underline;
 }
 
 footer {
@@ -147,6 +160,7 @@ footer {
     margin-right: 15px;
     border-radius: 5px;
     box-shadow: 3px 3px 3px #1c1a19;
+    margin-bottom: 5px;
 }
 
 #news article {
@@ -167,6 +181,10 @@ footer {
 
 #infos article {
     margin-bottom: 50px;
+}
+
+.link {
+    font-weight: bold;
 }
 
 .activities {

@@ -61,7 +61,7 @@ session_start();
                 <br/>
 
                 <label for="message">Message</label>
-            <textarea name="message" id="message">
+            <textarea name="message" id="message" rows="10" cols="40">
 
             </textarea>
             </p>

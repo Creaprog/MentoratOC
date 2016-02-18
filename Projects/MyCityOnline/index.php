@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'functions/get_news.php';
-$news = get_news(0, 1);
+require_once 'functions/get_last_new.php';
+$news = get_last_new(0, 1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,8 +23,8 @@ $news = get_news(0, 1);
     <?php include('header.php'); ?>
 
     <div id="last_new">
-        <a href="<?php echo $news['id']; ?>"><img class="last_new" src="<?php echo $news['image']; ?>"
-                                                  alt="last_new"></a>
+        <a href="<?php echo 'news.php?id=' . $news['id']; ?>"><img class="last_new" src="<?php echo $news['image']; ?>"
+                                                                   alt="last_new"></a>
 
         <h1 id="last_new_text"><?php echo $news['title']; ?></h1>
     </div>

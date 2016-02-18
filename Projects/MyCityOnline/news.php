@@ -1,7 +1,54 @@
 <?php
 session_start();
-require_once 'functions/get_all_news.php';
-$news = get_all_news();
+$getNew = false;
+if (isset($_GET['id'])) {
+    $nbrPage = 0;
+    $id = $_GET['id'];
+    if (is_numeric($id)) {
+        $id = (int)$id;
+        if (is_int($id) && $id > 0) {
+            $getNew = true;
+            require_once 'functions/get_new.php';
+            $news = get_new($id);
+        }
+    } else {
+        header('Location: news.php');
+    }
+} elseif (isset($_GET['page'])) {
+    $pageId = $_GET['page'];
+    if (is_numeric($pageId)) {
+        $pageId = (int)$pageId;
+        if (is_int($pageId) && $pageId > 0) {
+            require_once 'functions/get_all_news.php';
+            $elementslenght = get_all_news();
+            $elementslenght = count($elementslenght);
+            $elements = (int)$elementslenght;
+
+            $nbrPage = ceil($elements / 5);
+            $actualPage = $pageId;
+            if ($actualPage > $nbrPage) {
+                $actualPage = $nbrPage;
+            }
+            $firstEntry = ($actualPage - 1) * 5;
+            require_once 'functions/get_news.php';
+            $news = get_news($firstEntry, 5);
+        }
+    } else {
+        header('Location: news.php');
+    }
+} else {
+    require_once 'functions/get_all_news.php';
+    $elementslenght = get_all_news();
+    $elementslenght = count($elementslenght);
+    $elements = (int)$elementslenght;
+
+    $nbrPage = ceil($elements / 5);
+
+    $actualPage = 1;
+    $firstEntry = ($actualPage - 1) * 5;
+    require_once 'functions/get_news.php';
+    $news = get_news($firstEntry, 5);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +79,29 @@ $news = get_all_news();
 
                 <h1><?php echo $new['title']; ?></h1>
 
-                <p><?php echo $new['content']; ?></p>
+                <p><?php
+                    if (!$getNew) {
+                        if (strlen($new['content']) >= 200) {
+                            $new['content'] = substr($new['content'], 0, 400);
+                            $space = strrpos($new['content'], ' ');
+                            $new['content'] = substr($new['content'], 0, $space) . ' ... <a href=news.php?id=' . $new['id'] . ' class="link">lire la suite</a>';
+                        }
+                        echo $new['content'];
+                    } else {
+                        echo $new['content'];
+                    }
+                    ?></p>
             </article>
             <?php
         }
         ?>
+        <p class="pageLink">
+            <?php
+            for ($i = 1; $i <= $nbrPage; $i++) {
+                echo '<a href=news.php?page=' . $i . ' class="page"> Page ' . $i . '</a> / ';
+            }
+            ?>
+        </p>
     </section>
 
     <footer>
