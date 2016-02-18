@@ -154,27 +154,60 @@ if (isset($_POST['title'], $_POST['image'], $_POST['content'], $_POST['type']) &
             echo $result;
             break;
     }
-} elseif (isset($_POST['type'], $_POST['id']) && $_POST['type'] && $_POST['id']) {
+} elseif (isset($_POST['update'], $_POST['type'], $_POST['id']) && $_POST['update'] && $_POST['type'] && $_POST['id']) {
+    $update = htmlspecialchars($_POST['update']);
     $element = htmlspecialchars($_POST['type']);
     $id = htmlspecialchars($_POST['id']);
-    switch ($element) {
-        case "information":
-            $element = 'informations';
-            break;
-        case "new":
-            $element = 'news';
+    if ($update == 'ok') {
+        switch ($element) {
+            case "information":
+                $element = 'informations';
+                break;
+            case "new":
+                $element = 'news';
 
-            break;
-        case "activitee":
-            $element = 'activities';
-            break;
+                break;
+            case "activitee":
+                $element = 'activities';
+                break;
+        }
+        require_once 'ajax_publish_elem.php';
+        try {
+            ajax_publish_elem($element, $id);
+            $result = 'requestOk';
+        } catch (Exception $e) {
+            $result = $e;
+        }
+    } else {
+        $result = 'error';
     }
-    require_once 'ajax_publish_elem.php';
-    try {
-        ajax_publish_elem($element, $id);
-        $result = 'requestOk';
-    } catch (Exception $e) {
-        $result = $e;
+    echo $result;
+} elseif (isset($_POST['delete'], $_POST['type'], $_POST['id']) && $_POST['delete'] && $_POST['type'] && $_POST['id']) {
+    $del = htmlspecialchars($_POST['delete']);
+    $element = htmlspecialchars($_POST['type']);
+    $id = htmlspecialchars($_POST['id']);
+
+    if ($del == 'ok') {
+        switch ($element) {
+            case "information":
+                $element = 'informations';
+                break;
+            case "new":
+                $element = 'news';
+                break;
+            case "activitee":
+                $element = 'activities';
+                break;
+        }
+        require_once 'ajax_del_elem.php';
+        try {
+            ajax_del_elem($element, $id);
+            $result = 'requestOk';
+        } catch (Exception $e) {
+            $result = $e;
+        }
+    } else {
+        $result = 'error';
     }
     echo $result;
 }

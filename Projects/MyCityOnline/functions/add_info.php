@@ -6,6 +6,11 @@ function add_info($title, $image, $content)
 {
     $pseudo = $_SESSION['pseudo'];
     $acess = ajax_check_access($pseudo);
+    if ($acess != 0) {
+        $acess = 1;
+    } else {
+        $acess = 0;
+    }
     global $bdd;
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

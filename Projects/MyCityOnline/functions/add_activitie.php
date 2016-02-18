@@ -6,6 +6,11 @@ function add_activitie($title, $image, $content)
 {
     $pseudo = $_SESSION['pseudo'];
     $acess = ajax_check_access($pseudo);
+    if ($acess != 0) {
+        $acess = 1;
+    } else {
+        $acess = 0;
+    }
 
     global $bdd;
 

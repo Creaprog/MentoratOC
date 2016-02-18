@@ -1,16 +1,16 @@
 <?php
 session_start();
-if(isset($_SESSION['pseudo'], $_SESSION['password']) && $_SESSION['pseudo'] && $_SESSION['password']){
+if (isset($_SESSION['pseudo'], $_SESSION['password']) && $_SESSION['pseudo'] && $_SESSION['password']) {
     $pseudo = htmlspecialchars($_SESSION['pseudo']);
     $password = htmlspecialchars($_SESSION['password']);
     require_once 'functions/check_login.php';
     if (check_login($pseudo, $password) == false) {
         header('Location: login.php');
-    }else{
+    } else {
         require_once 'functions/check_access.php';
         $acces = check_access($pseudo);
     }
-}else{
+} else {
     header('Location: login.php');
 }
 ?>
@@ -37,13 +37,38 @@ if(isset($_SESSION['pseudo'], $_SESSION['password']) && $_SESSION['pseudo'] && $
         <h1>Bienvenue sur l'espace d'administration du site</h1>
 
         <p>
-            <button id="addNew"><?php if($acces != 1){ echo "Soumettre une new"; }else{ echo "Ajouter une new"; }?></button>
-            <button id="addInfo"><?php if($acces != 1){ echo "Soumettre une information"; }else{ echo "Ajouter une information"; }?></button>
-            <button id="addAct"><?php if($acces != 1){ echo "Soumettre une activitée"; }else{ echo "Ajouter une activitée"; }?></button>
-            <button id="getNews"><?php if($acces != 1){ echo "Modifier une new soumis"; }else{ echo "Modifier une news"; }?></button>
-            <button id="getInfos"><?php if($acces != 1){ echo "Modifier une information soumis"; }else{ echo "Modifier une information"; }?></button>
-            <button id="getAct"><?php if($acces != 1){ echo "Modifier une activitée soumis"; }else{ echo "Modifier une activitée"; }?></button>
-            <?php if($acces == 1){ ?><button id="getPub">Publier des article soumis</button><?php } ?>
+            <button id="addNew"><?php if (($acces != 1) && ($acces != 2)) {
+                    echo "Soumettre une new";
+                } else {
+                    echo "Ajouter une new";
+                } ?></button>
+            <button id="addInfo"><?php if (($acces != 1) && ($acces != 2)) {
+                    echo "Soumettre une information";
+                } else {
+                    echo "Ajouter une information";
+                } ?></button>
+            <button id="addAct"><?php if (($acces != 1) && ($acces != 2)) {
+                    echo "Soumettre une activitée";
+                } else {
+                    echo "Ajouter une activitée";
+                } ?></button>
+            <button id="getNews"><?php if (($acces != 1) && ($acces != 2)) {
+                    echo "Modifier une new soumis";
+                } else {
+                    echo "Modifier une new";
+                } ?></button>
+            <button id="getInfos"><?php if (($acces != 1) && ($acces != 2)) {
+                    echo "Modifier une information soumis";
+                } else {
+                    echo "Modifier une information";
+                } ?></button>
+            <button id="getAct"><?php if (($acces != 1) && ($acces != 2)) {
+                    echo "Modifier une activitée soumis";
+                } else {
+                    echo "Modifier une activitée";
+                } ?></button>
+            <?php if ($acces != 0) { ?>
+                <button id="getPub">Publier des article soumis</button><?php } ?>
         </p>
 
         <div id="dataLog">

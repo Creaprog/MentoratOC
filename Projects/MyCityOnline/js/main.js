@@ -41,6 +41,11 @@ $(function () {
         $('tbody').empty();
     }
 
+    var checkAccess = $.ajax({
+        method: 'GET',
+        url: 'statut.php'
+    });
+
     function loadRecept($element) {
         switch ($element) {
             case 'News':
@@ -67,7 +72,14 @@ $(function () {
             timeout: 3000,
             success: function (data) {
                 var elementParsed = jQuery.parseJSON(data);
-                var statut;
+                var statut, acces = false;
+                checkAccess.done(function (data) {
+                    if (data == 2) {
+                        acces = true;
+                    } else {
+                        acces = false;
+                    }
+                });
                 switch ($element) {
                     case 'news':
                         for (var news in elementParsed) {
@@ -77,7 +89,11 @@ $(function () {
                             } else {
                                 statut = 'Publié';
                             }
-                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td>' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
+                            if (acces == false) {
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
+                            } else {
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'] + '</td><td data-thead="Image :">' + elementParsed[news]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[news]['id'] + ' data-type="new">Supprimer</button></td></tr>');
+                            }
                         }
                         break;
                     case 'informations':
@@ -88,7 +104,11 @@ $(function () {
                             } else {
                                 statut = 'Publié';
                             }
-                            $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td>' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
+                            if (acces == false) {
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
+                            } else {
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'] + '</td><td data-thead="Image :">' + elementParsed[informations]['image'] + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[informations]['id'] + ' data-type="information">Supprimer</button></td></tr>');
+                            }
                         }
                         break;
                     case 'activities':
@@ -100,7 +120,11 @@ $(function () {
                                 statut = 'Publié';
                             }
                             var instant = elementParsed[activities]['instant'].replace(new RegExp('-', 'g'), ',');
-                            $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td><td>' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button></td></tr>');
+                            if (acces == false) {
+                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button></td></tr>');
+                            } else {
+                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'] + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'] + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[activities]['id'] + ' data-type="activitee">Supprimer</button></td></tr>');
+                            }
                         }
                         break;
                     case 'pub':
@@ -298,11 +322,11 @@ $(function () {
         $.ajax({
             type: 'POST',
             url: 'ajax/request.php',
-            data: {type: type, id: id},
+            data: {update: 'ok', type: type, id: id},
             timeout: 3000,
             success: function (data) {
                 if (data === 'requestOk') {
-                    $('#dataLog').html('L\'article à bien été publier !');
+                    $('#dataLog').html('L\'élément à bien été publier !');
                     $('.contact').remove();
                     remove_Recept();
                     show_all();
@@ -310,10 +334,32 @@ $(function () {
             },
             error: function () {
                 alert('La requete n\'a pas abouti');
-                console.log('off');
             }
         });
 
     });
+
+    $(document).on('click', '.del', function () {
+        var type = $(this).attr('data-type');
+        var id = $(this).attr('data-id');
+
+        $.ajax({
+            type: 'POST',
+            url: 'ajax/request.php',
+            data: {delete: 'ok', type: type, id: id},
+            timeout: 3000,
+            success: function (data) {
+                if (data === 'requestOk') {
+                    $('#dataLog').html('L\'élément à bien été supprimer !');
+                    $('.contact').remove();
+                    remove_Recept();
+                    show_all();
+                }
+            },
+            error: function () {
+                alert('La requete n\'a pas abouti');
+            }
+        });
+    })
 
 });

@@ -13,9 +13,16 @@ function ajax_check_access($pseudo)
 
     $access = $req->fetch();
 
-    if($access['grade'] === "Unpublish"){
-        return 0;
-    }else{
-        return 1;
+    switch ($access['grade']) {
+        case 'Unpublish':
+            return 0;
+            break;
+        case 'Publish':
+            return 1;
+            break;
+        case 'Admin':
+            return 2;
+            break;
     }
+
 }
