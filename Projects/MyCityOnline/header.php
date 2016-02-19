@@ -7,9 +7,11 @@
         <li><a href="infos.php">Plus d'infos</a></li>
         <li><a href="activities.php">Activités du mois</a></li>
         <li><input type="text" autocomplete="off" id="research"></li>
+        <li><button id="submitResearch">rechercher</button></li>
         <li><a href="contact.php">Contact</a></li>
     </ul>
 </nav>
+
 
 <header>
     <img src="http://img11.hostingpics.net/pics/934102town.png" alt="logo_town">

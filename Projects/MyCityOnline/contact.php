@@ -73,5 +73,7 @@ session_start();
     </footer>
 
 </div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="js/research.js"></script>
 </body>
 </html>

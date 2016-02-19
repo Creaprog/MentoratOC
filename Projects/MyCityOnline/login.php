@@ -53,5 +53,7 @@ if (isset($_POST['pseudo'], $_POST['password']) && $_POST['pseudo'] && $_POST['p
     </footer>
 
 </div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="js/research.js"></script>
 </body>
 </html>

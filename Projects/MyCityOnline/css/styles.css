@@ -47,7 +47,8 @@ nav {
 
 nav ul {
     list-style-type: none;
-
+    width: auto;
+    height: auto;
 }
 
 nav li {
@@ -179,6 +180,11 @@ footer {
     box-shadow: 3px 3px 3px #1c1a19;
 }
 
+.req {
+    height: 50px;
+    width: auto;
+}
+
 #infos article {
     margin-bottom: 50px;
 }
@@ -215,7 +221,12 @@ footer {
 }
 
 #research {
+    width: 100%;
     border-radius: 5px 5px 5px 5px;
+}
+
+#submitResearch {
+    width: 100%;
 }
 
 @media all and (max-width: 925px) {
@@ -308,6 +319,11 @@ footer {
     }
 
     #infos img {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .req {
         height: auto;
         max-width: 100%;
     }

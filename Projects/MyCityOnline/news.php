@@ -82,7 +82,7 @@ if (isset($_GET['id'])) {
                 <p><?php
                     if (!$getNew) {
                         if (strlen($new['content']) >= 200) {
-                            $new['content'] = substr($new['content'], 0, 400);
+                            $new['content'] = substr($new['content'], 0, 200);
                             $space = strrpos($new['content'], ' ');
                             $new['content'] = substr($new['content'], 0, $space) . ' ... <a href=news.php?id=' . $new['id'] . ' class="link">lire la suite</a>';
                         }
@@ -109,5 +109,7 @@ if (isset($_GET['id'])) {
     </footer>
 
 </div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="js/research.js"></script>
 </body>
 </html>

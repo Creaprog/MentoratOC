@@ -94,5 +94,6 @@ if (isset($_SESSION['pseudo'], $_SESSION['password']) && $_SESSION['pseudo'] && 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/research.js"></script>
 </body>
 </html>
