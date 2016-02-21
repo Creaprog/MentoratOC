@@ -42,13 +42,26 @@ $activities = get_all_activities();
                     <td data-thead="Date :"><?php echo date("d/m/Y", strtotime($activity['instant'])); ?></td>
                     <td data-thead="Titre :"><?php echo $activity['title']; ?></td>
                     <td data-thead="Description :"><?php echo $activity['description']; ?></td>
-                    <td><a href="#">Inscription</a></td>
+                    <td><a href="#" data-width="200" data-rel="popup_registration_<?php echo $activity['id']; ?>"
+                           class="popup_link">Inscription</a></td>
+                    <div id="popup_registration_<?php echo $activity['id']; ?>" class="popup">
+                        <h2>Inscription pour <?php echo $activity['title']; ?></h2>
+                        <p>Affin de vous inscrire a cet evenement merci d'indique votre nom :</p>
+                        <label for="name">Votre nom :</label>
+                        <input type="text" id="name"/>
+                        <br/>
+                        <button class="valid_registration">S'inscrire</button>
+                    </div>
                 </tr>
+
+
                 <?php
             }
             ?>
             </tbody>
         </table>
+
+
     </section>
 
     <footer>
@@ -58,5 +71,6 @@ $activities = get_all_activities();
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="js/research.js"></script>
+<script src="js/registration.js"></script>
 </body>
 </html>
