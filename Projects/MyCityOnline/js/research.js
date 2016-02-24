@@ -1,5 +1,6 @@
 $(function () {
 
+    //Click and keyup event to send a research
     $('#research').keyup(function (e) {
         if (e.keyCode == 13) {
             search();

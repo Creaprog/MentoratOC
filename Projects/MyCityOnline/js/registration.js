@@ -1,6 +1,7 @@
 $(function () {
 
 
+    //Click event to form registration inspired by sohtanaka on developez.com
     $('a.popup_link').on('click', function () {
         var popID = $(this).data('rel');
         var popWidth = $(this).data('width');

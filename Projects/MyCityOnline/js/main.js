@@ -1,16 +1,20 @@
 $(function () {
+    //Function to create form
     function createElement(element1, element1Text, element1Type, element2, element2Text, element2Type, element3, element3Text, type, id) {
         $('<p class="contact"><label for=' + element1 + '>' + element1Text + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + '><br /><label for=' + element2 + '>' + element2Text + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + '><br /><label for=' + element3 + '>' + element3Text + ' :</label><textarea name=' + element3 + ' id=' + element3 + ' rows="10" cols="40"></textarea><br /><input type="hidden" id="Type" value=' + type + '><input type="hidden" id="Id" value=' + id + '><button id="submit">Enregistrer</button></p>').insertAfter('p');
     }
 
+    //Function to create a back button
     function createReturn() {
         $('<button id="return">Retour</button>').insertAfter('#addAct');
     }
 
+    //Function to remove form
     function removeElement() {
         $('.contact').remove();
     }
 
+    //Function to show all buttons
     function show_all() {
         $('#addInfo').fadeIn('slow');
         $('#addAct').fadeIn('slow');
@@ -22,6 +26,7 @@ $(function () {
         $('#return').hide();
     }
 
+    //Function to hide all buttons
     function hide_all() {
         $('#addInfo').hide();
         $('#addAct').hide();
@@ -32,20 +37,24 @@ $(function () {
         $('#getPub').hide();
     }
 
+    //Function to empty log message
     function removeLog() {
         $('#dataLog').empty();
     }
 
+    //Function to empty thead an tbody of table
     function remove_Recept() {
         $('thead').empty();
         $('tbody').empty();
     }
 
+    //Object to get account statut
     var checkAccess = $.ajax({
         method: 'GET',
         url: 'statut.php'
     });
 
+    //Function to load table by ajax request
     function loadRecept($element) {
         switch ($element) {
             case 'News':
@@ -143,6 +152,7 @@ $(function () {
         });
     }
 
+    //Function to list all element by ajax request
     function loadElement($element, $idElement) {
         switch ($element) {
             case 'New':
@@ -187,6 +197,7 @@ $(function () {
         });
     }
 
+    //Area to click event of all buttons
     $('#addNew').click(function () {
         hide_all();
         removeLog();
