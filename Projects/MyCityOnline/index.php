@@ -32,7 +32,7 @@ $news = get_last_new(0, 1);
     <section id="home">
         <h1>Quisque tristique posuere massa egetcs</h1>
 
-        <img src="images/home.jpg" alt="home">
+        <img src="images/index/home.jpg" alt="home">
 
         <p>
             Quisque ac tortor venenatis est ornare fermentum eu vel ante. Curabitur a lectus urna. Nunc pellentesque
