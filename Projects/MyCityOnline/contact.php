@@ -1,5 +1,26 @@
 <?php
 session_start();
+if (isset($_POST['title'], $_POST['name'], $_POST['born'], $_POST['email'], $_POST['nationality'], $_POST['message']) && $_POST['title'] && $_POST['name'] && $_POST['born'] && $_POST['email'] && $_POST['nationality'] && $_POST['message']) {
+    $title = htmlspecialchars($_POST['title']);
+    $name = htmlspecialchars($_POST['name']);
+    $born = htmlspecialchars($_POST['born']);
+    $email = htmlspecialchars($_POST['email']);
+    $nationality = htmlspecialchars($_POST['nationality']);
+    require_once 'functions/send_mail.php';
+    if (isset($_POST['citizen'])) {
+        $citizen = 'Oui';
+    } else {
+        $citizen = 'Non';
+    }
+    $message = htmlspecialchars($_POST['message']);
+    $information = 'Vous avez reçu un message : \n' . $title . '\n Nom :' . $name . '\n Nee le : ' . $born . '\n Email : ' . $email . '\n De nationalite : ' . $nationality . '\n Citoyen de la ville : ' . $citizen . '\n Message : ' . $message;
+    try {
+        send_mail($information);
+    } catch (Exception $e) {
+        $error = $e;
+    }
+    $reply = "<p class='contact'>Votre message à bien été transmis. Nous vous répondrons le plus vite possible.</p>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,51 +42,63 @@ session_start();
     <?php include('header.php'); ?>
 
     <section>
-        <form method="post" action="" class="contact">
-            <p>
-                <label for="title">Titre du message :</label>
-                <input type="text" name="title" id="title"/>
+        <?php if (empty($reply)) { ?>
+            <form method="post" action="contact.php" class="contact">
+                <p>
+                    <label for="title">Titre du message :</label>
+                    <input type="text" name="title" id="title"/>
 
-                <br/>
+                    <br/>
 
-                <label for="name">Votre nom :</label>
-                <input type="text" name="name" id="name"/>
+                    <label for="name">Votre nom :</label>
+                    <input type="text" name="name" id="name"/>
 
-                <br/>
+                    <br/>
 
-                <label for="born">Votre date de naissance :</label>
-                <input type="date" name="born" id="born"/>
+                    <label for="born">Votre date de naissance :</label>
+                    <input type="date" name="born" id="born"/>
 
-                <br/>
+                    <br/>
 
-                <label for="email">Votre e-mail :</label>
-                <input type="email" name="email" id="email"/>
+                    <label for="email">Votre e-mail :</label>
+                    <input type="email" name="email" id="email"/>
 
-                <br/>
+                    <br/>
 
-                <input type="checkbox" name="citizen" id="citizen"/>
-                <label for="citizen">Résident de la ville</label>
+                    <input type="checkbox" name="citizen" id="citizen"/>
+                    <label for="citizen">Résident de la ville</label>
 
-                <br/>
+                    <br/>
 
-                <label for="nationality">Nationalité</label>
-                <select name="nationality" id="nationality">
-                    <option value="Fraçaise">Française</option>
-                    <option value="Marocaine">Marocaine</option>
-                    <option value="Algérienne">Algérienne</option>
-                    <option value="Américaine">Américaine</option>
-                    <option value="Anglaise">Anglaise</option>
-                    <option value="Allemande">Allemande</option>
-                </select>
+                    <label for="nationality">Nationalité</label>
+                    <select name="nationality" id="nationality">
+                        <option value="Fraçaise">Française</option>
+                        <option value="Marocaine">Marocaine</option>
+                        <option value="Algérienne">Algérienne</option>
+                        <option value="Américaine">Américaine</option>
+                        <option value="Anglaise">Anglaise</option>
+                        <option value="Allemande">Allemande</option>
+                    </select>
 
-                <br/>
+                    <br/>
 
-                <label for="message">Message</label>
+                    <label for="message">Message</label>
             <textarea name="message" id="message" rows="10" cols="40">
 
             </textarea>
-            </p>
-        </form>
+
+                    <br/>
+
+                    <input type="submit" value="Envoyer"/>
+
+                </p>
+            </form>
+        <?php } else {
+            echo $reply;
+            if (isset($error)) {
+                echo $error;
+            }
+        } ?>
     </section>
 
     <footer>
