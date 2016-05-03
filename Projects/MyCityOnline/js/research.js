@@ -4,10 +4,13 @@ $(function () {
     $('#research').keyup(function (e) {
         if (e.keyCode == 13) {
             search();
+
         }
+
     });
 
     $('#submitResearch').click(function () {
+        console.log('entre');
         if ($('#research').val() != '') {
             search();
         }

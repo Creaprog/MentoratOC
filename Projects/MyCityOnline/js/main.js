@@ -1,12 +1,12 @@
 $(function () {
     //Function to create form
     function createElement(element1, element1Text, element1Type, element2, element2Text, element2Type, element3, element3Text, type, id) {
-        $('<p class="contact"><label for=' + element1 + '>' + element1Text + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + '><br /><label for=' + element2 + '>' + element2Text + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + '><br /><label for=' + element3 + '>' + element3Text + ' :</label><textarea name=' + element3 + ' id=' + element3 + ' rows="10" cols="40"></textarea><br /><input type="hidden" id="Type" value=' + type + '><input type="hidden" id="Id" value=' + id + '><button id="submit">Enregistrer</button></p>').insertAfter('p');
+        $('<from class="contact"><div class="form-group"><label for=' + element1 + '>' + element1Text + ' : </label><input type=' + element1Type + ' name=' + element1 + ' id=' + element1 + ' class="form-control" required></div><div class="form-group"><label for=' + element2 + '>' + element2Text + ' : </label><input type=' + element2Type + ' name=' + element2 + ' id=' + element2 + ' class="form-control" required></div><div class="form-group"><label for=' + element3 + '>' + element3Text + ' :</label><textarea name=' + element3 + ' id=' + element3 + ' rows="10" cols="40" class="form-control" required></textarea></div><input type="hidden" id="Type" value=' + type + '><input type="hidden" id="Id" value=' + id + '><button class="btn btn-success" id="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button></from>').insertAfter('p');
     }
 
     //Function to create a back button
     function createReturn() {
-        $('<button id="return">Retour</button>').insertAfter('#addAct');
+        $('<button class="btn btn-primary" id="return"><span class="glyphicon glyphicon-menu-left"></span> Retour</button>').insertAfter('#addAct');
     }
 
     //Function to remove form
@@ -59,15 +59,15 @@ $(function () {
         switch ($element) {
             case 'News':
                 $element = 'news';
-                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th><th>Statut</th></tr>');
+                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th><th>Statut</th><th>Action</th></tr>');
                 break;
             case 'Informations':
                 $element = 'informations';
-                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th><th>Statut</th></tr>');
+                $('thead').append('<tr><th>Titre</th><th>Image</th><th>Contenu</th><th>Statut</th><th>Action</th></tr>');
                 break;
             case 'Activities':
                 $element = 'activities';
-                $('thead').append('<tr><th>Date</th><th>Titre</th><th>Description</th><th>Statut</th></tr>');
+                $('thead').append('<tr><th>Date</th><th>Titre</th><th>Description</th><th>Statut</th><th>Action</th></tr>');
                 break;
             case 'pub':
                 $element = 'pub';
@@ -99,9 +99,9 @@ $(function () {
                                 statut = 'Publié';
                             }
                             if (acces == false) {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[news]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[news]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew btn btn-warning" data-id=' + elementParsed[news]['id'] + '><span class="glyphicon glyphicon-pencil"></span> Modifier</button></td></tr>');
                             } else {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[news]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew" data-id=' + elementParsed[news]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[news]['id'] + ' data-type="new">Supprimer</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[news]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[news]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[news]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modNew btn btn-warning" data-id=' + elementParsed[news]['id'] + '><span class="glyphicon glyphicon-pencil"></span> Modifier</button><button class="del btn btn-danger" data-id=' + elementParsed[news]['id'] + ' data-type="new"><span class="glyphicon glyphicon-remove"></span> Supprimer</button></td></tr>');
                             }
                         }
                         break;
@@ -114,9 +114,9 @@ $(function () {
                                 statut = 'Publié';
                             }
                             if (acces == false) {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[informations]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[informations]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo btn btn-warning" data-id=' + elementParsed[informations]['id'] + '><span class="glyphicon glyphicon-pencil"></span> Modifier</button></td></tr>');
                             } else {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[informations]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo" data-id=' + elementParsed[informations]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[informations]['id'] + ' data-type="information">Supprimer</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + elementParsed[informations]['title'].substr(0, 16) + '</td><td data-thead="Image :">' + elementParsed[informations]['image'].substr(0, 20) + '</td><td data-thead="Contenu :">' + elementParsed[informations]['content'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modInfo btn btn-warning" data-id=' + elementParsed[informations]['id'] + '><span class="glyphicon glyphicon-pencil"></span> Modifier</button><button class="del btn btn-danger" data-id=' + elementParsed[informations]['id'] + ' data-type="information"><span class="glyphicon glyphicon-remove"></span> Supprimer</button></td></tr>');
                             }
                         }
                         break;
@@ -130,16 +130,16 @@ $(function () {
                             }
                             var instant = elementParsed[activities]['instant'].replace(new RegExp('-', 'g'), ',');
                             if (acces == false) {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'].substr(0, 16) + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'].substr(0, 16) + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct btn btn-warning" data-id=' + elementParsed[activities]['id'] + '><span class="glyphicon glyphicon-pencil"></span> Modifier</button></td></tr>');
                             } else {
-                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'].substr(0, 16) + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct" data-id=' + elementParsed[activities]['id'] + '>Modifier</button><button class="del" data-id=' + elementParsed[activities]['id'] + ' data-type="activitee">Supprimer</button></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Titre :">' + new Date(instant).toLocaleDateString() + '</td><td data-thead="Image :">' + elementParsed[activities]['title'].substr(0, 16) + '</td><td data-thead="Contenu :">' + elementParsed[activities]['description'].substr(0, 50) + '</td><td data-thead="Statut :">' + statut + '</td><td><button class="modAct btn btn-warning" data-id=' + elementParsed[activities]['id'] + '><span class="glyphicon glyphicon-pencil"></span> Modifier</button><button class="del btn btn-danger" data-id=' + elementParsed[activities]['id'] + ' data-type="activitee"><span class="glyphicon glyphicon-remove"></span> Supprimer</button></td></tr>');
                             }
                         }
                         break;
                     case 'pub':
                         for (var pub in elementParsed) {
                             for (var i = 0; i < elementParsed[pub].length; i++) {
-                                $('tbody').append('<tr><td data-thead="Type :">' + elementParsed[pub][i].Type + '</td><td data-thead="Titre :">' + elementParsed[pub][i].title + '</td><td data-thead="Action :"><button class="pubElem" data-id=' + elementParsed[pub][i].id + ' data-type=' + elementParsed[pub][i].Type + '>Publier</button></td><td></td></tr>');
+                                $('tbody').append('<tr><td data-thead="Type :">' + elementParsed[pub][i].Type + '</td><td data-thead="Titre :">' + elementParsed[pub][i].title + '</td><td data-thead="Action :"><button class="pubElem btn btn-success" data-id=' + elementParsed[pub][i].id + ' data-type=' + elementParsed[pub][i].Type + '><span class="glyphicon glyphicon-eye-open"></span> Publier</button></td><td></td></tr>');
                             }
                         }
                         break;
@@ -268,31 +268,37 @@ $(function () {
                     removeElement();
                     switch (Type) {
                         case 'addNew':
-                            $('#dataLog').html('La new a bien été ajouté !');
+                            $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                                'La news a bien été ajouté !</div>');
                             break;
                         case 'addInfo':
-                            $('#dataLog').html('L\'information a bien été ajouté !');
+                            $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                                'L\'information a bien été ajouté !</div>');
                             break;
                         case 'addAct':
-                            $('#dataLog').html('L\'actualité a bien été ajouté !');
+                            $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                                'L\'activité a bien été ajouté !</div>');
                             break;
                         case 'modNew':
-                            $('#dataLog').html('La new a bien été modifée !');
+                            $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                                'La news a bien été modifé !</div>');
                             break;
                         case 'modInfo':
-                            $('#dataLog').html('L\'information a bien été modifée !');
+                            $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                                'L\'information a bien été modifé !</div>');
                             break;
                         case 'modAct':
-                            $('#dataLog').html('L\'actualitée a bien été modifée !');
+                            $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                                'L\'activité a bien été modifé !</div>');
                             break;
                     }
                     show_all();
                 } else {
-                    $('#dataLog').html(data);
+                    $('#dataLog').html('<div class="alert alert-danger" role="alert">' + data + '</div>');
                 }
             },
             error: function () {
-                alert('La requete n\'a pas abouti');
+                alert('La requête n\'a pas abouti');
             }
         });
 
@@ -337,14 +343,15 @@ $(function () {
             timeout: 3000,
             success: function (data) {
                 if (data === 'requestOk') {
-                    $('#dataLog').html('L\'élément à bien été publier !');
+                    $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                        'L\'élément a bien été publié !</div>');
                     $('.contact').remove();
                     remove_Recept();
                     show_all();
                 }
             },
             error: function () {
-                alert('La requete n\'a pas abouti');
+                alert('La requête n\'a pas abouti');
             }
         });
 
@@ -361,14 +368,15 @@ $(function () {
             timeout: 3000,
             success: function (data) {
                 if (data === 'requestOk') {
-                    $('#dataLog').html('L\'élément à bien été supprimer !');
+                    $('#dataLog').html('<div class="alert alert-success" role="alert">' +
+                        'L\'élément a bien été supprimé !</div>');
                     $('.contact').remove();
                     remove_Recept();
                     show_all();
                 }
             },
             error: function () {
-                alert('La requete n\'a pas abouti');
+                alert('La requête n\'a pas abouti');
             }
         });
     })
