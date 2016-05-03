@@ -16,7 +16,7 @@ function add_activitie($title, $image, $content)
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('INSERT INTO activities VALUES ("", :title, :image, :content, :acess, "activitee")');
+    $req = $bdd->prepare('INSERT INTO activities VALUES (NULL, :title, :image, :content, :acess, "activitee")');
     $req->bindParam(':title', $title, PDO::PARAM_STR);
     $req->bindParam(':image', $image, PDO::PARAM_STR);
     $req->bindParam(':content', $content, PDO::PARAM_STR);

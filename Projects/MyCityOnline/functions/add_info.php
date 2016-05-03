@@ -15,7 +15,7 @@ function add_info($title, $image, $content)
 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $req = $bdd->prepare('INSERT INTO informations VALUES ("", :title, :content, :image, :acess, "information")');
+    $req = $bdd->prepare('INSERT INTO informations VALUES (NULL, :title, :content, :image, :acess, "information")');
     $req->bindParam(':title', $title, PDO::PARAM_STR);
     $req->bindParam(':content', $content, PDO::PARAM_STR);
     $req->bindParam(':image', $image, PDO::PARAM_STR);

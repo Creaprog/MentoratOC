@@ -1,12 +1,17 @@
 <?php
-function send_mail($informations)
+require_once 'config/config.php';
+require 'vendor/autoload.php';
+function send_mail($from = NULL, $name, $text, $sujet_prefix)
 {
-    $to = 'destinataire@nomdedomaine';
-    $subject = 'Vous avez reçu un message suite a votre formulaire de contact';
-    $message = $informations;
-    $headers = 'From: webmaster@example.com' . "\r\n" .
-        'Reply-To: webmaster@example.com' . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
+    $transport = Swift_SmtpTransport::newInstance(SMTP_ADDRESS, SMTP_PORT)
+        ->setUsername(SMTP_USER)
+        ->setPassword(SMTP_PASSWORD);
+    $mailer = Swift_Mailer::newInstance($transport);
 
-    mail($to, $subject, $message, $headers);
+    $message = Swift_Message::newInstance($name . $sujet_prefix)
+        ->setFrom(array(is_null($from) ? 'mycityonline@gregoire-moty.fr' : $from => $name))
+        ->setTo(array(SWIFT_MESSAGE_TO => SWIFT_MESSAGE_TO_NAME))
+        ->setBody($text, 'text/html');
+
+    $result = $mailer->send($message);
 }
