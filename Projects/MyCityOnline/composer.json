@@ -1,0 +1,12 @@
+{
+  "name": "gmoty/mycityonline",
+  "require": {
+    "swiftmailer/swiftmailer": "^5.4"
+  },
+  "authors": [
+    {
+      "name": "Gregoire Moty",
+      "email": "contact@gregoire-moty.fr"
+    }
+  ]
+}
