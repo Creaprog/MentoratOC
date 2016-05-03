@@ -3,4 +3,14 @@
 const DBHOST = '';
 const DBUSER = '';
 const DBPASS = '';
-const DBNAME = '';
+const DBNAME = 'mycityonline';
+
+//Default configuration to Swift_SmtpTransport
+const SMTP_ADDRESS = '';
+const SMTP_PORT = '';
+const SMTP_USER = '';
+const SMTP_PASSWORD = '';
+
+//Default configuration to Swift_Message
+const SWIFT_MESSAGE_TO = '';
+const SWIFT_MESSAGE_TO_NAME = '';
