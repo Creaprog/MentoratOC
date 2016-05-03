@@ -23,7 +23,7 @@ if (isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width"/>
-    <link rel="stylesheet" href="css/styles.css"/>
+    <!-- <link rel="stylesheet" href="css/styles.css"/> -->
     <!--[if lte IE 8]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -31,19 +31,24 @@ if (isset($_GET['id'])) {
     <body class="ie7">
     <![endif]-->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <title>My City Online</title>
 </head>
 <body>
-<div id="block_body">
 
-    <?php include('header.php'); ?>
+<?php include('header.php'); ?>
 
-    <section id="infos">
-        <?php
-        foreach ($informations as $information) {
-            ?>
-            <article>
-                <img src="<?php echo $information['image']; ?>" alt="news<?php echo $information['id']; ?>">
+<div class="container" style="margin-top: 50px;">
+    <?php
+    foreach ($informations as $information) {
+        ?>
+        <article class="container">
+            <div class="jumbotron text-center">
+                <img src="<?php echo $information['image']; ?>" alt="news<?php echo $information['id']; ?>"
+                     class="img-responsive" style="margin: 0 auto;">
+
 
                 <h1><?php echo $information['title']; ?></h1>
 
@@ -58,20 +63,23 @@ if (isset($_GET['id'])) {
                     } else {
                         echo $information['content'];
                     }
-                    ?></p>
-            </article>
-            <?php
-        }
-        ?>
-
-    </section>
-
-    <footer>
-        <?php include('footer.php'); ?>
-    </footer>
-
+                    ?></p></div>
+        </article>
+        <?php
+    }
+    ?>
 </div>
+
+<div class="text-center">
+    <?php include('footer.php'); ?>
+</div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
 <script src="js/research.js"></script>
 </body>
 </html>
