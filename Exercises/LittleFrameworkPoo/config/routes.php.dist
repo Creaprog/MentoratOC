@@ -1,0 +1,5 @@
+<?php
+return array(
+    '/' => 'NewsController::index',
+    '/new/(\d+)$' => 'NewsController::show'
+);
