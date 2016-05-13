@@ -119,15 +119,15 @@ DECLARE unpublisher_3_pass VARCHAR(255);
       unpublisher_3_pass = "";
 
   INSERT INTO `users` (`id`, `pseudo`, `password`, `grade`) VALUES
-  (1, admin, admin_pass, 'Admin');
+  (1, admin, SHA1(admin_pass), 'Admin');
   INSERT INTO `users` (`id`, `pseudo`, `password`, `grade`) VALUES
-  (2, publisher_1, publisher_1_pass, 'Publish');
+  (2, publisher_1, SHA1(publisher_1_pass), 'Publish');
   INSERT INTO `users` (`id`, `pseudo`, `password`, `grade`) VALUES
-  (3, publisher_2, publisher_2_pass, 'Publish');
+  (3, publisher_2, SHA1(publisher_2_pass), 'Publish');
   INSERT INTO `users` (`id`, `pseudo`, `password`, `grade`) VALUES
-  (4, unpublisher_1, unpublisher_1_pass, 'Unpublish');
+  (4, unpublisher_1, SHA1(unpublisher_1_pass), 'Unpublish');
   INSERT INTO `users` (`id`, `pseudo`, `password`, `grade`) VALUES
-  (5, unpublisher_2, unpublisher_2_pass, 'Unpublish');
+  (5, unpublisher_2, SHA1(unpublisher_2_pass), 'Unpublish');
   INSERT INTO `users` (`id`, `pseudo`, `password`, `grade`) VALUES
-  (6, unpublisher_3, unpublisher_3_pass, 'Unpublish');
+  (6, unpublisher_3, SHA1(unpublisher_3_pass), 'Unpublish');
 END ;;
