@@ -22,9 +22,10 @@ class NewsController
         self::render('home', compact('news'));
     }
 
-    public static function show($id)
+    public static function show($params)
     {
-        $new = self::$news->show($id);
+        $toInt = array_map('intval', $params);
+        $new = self::$news->show($toInt[1]);
         self::render('new', compact('new'));
     }
 
