@@ -1,7 +1,6 @@
 <?php
 session_start();
-if (isset($_POST['pseudo'], $_POST['password']) && $_POST['pseudo'] && $_POST['password']) {
-    var_dump('totot');
+if (isset($_POST['pseudo'], $_POST['password'])) {
     $pseudo = htmlspecialchars($_POST['pseudo']);
     $password = sha1($_POST['password']);
     require_once 'functions/check_login.php';
